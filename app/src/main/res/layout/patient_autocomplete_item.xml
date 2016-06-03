@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <TextView
+        android:id="@+id/patient_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:paddingLeft="5dp"
+        android:textStyle="bold"
+        android:text="@string/patient_name_value" />
+
+    <LinearLayout
+        android:id="@+id/patient_section"
+        android:layout_below="@+id/patient_name"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/patient_code"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/patient_name"
+            android:paddingLeft="5dp"
+            android:textSize="10sp"
+            android:layout_weight=".7"
+            android:text="@string/patient_dni_value" />
+
+        <TextView
+            android:id="@+id/patient_ubigeo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp"
+            android:layout_weight=".3"
+            android:textSize="10sp"
+            />
+
+    </LinearLayout>
+
+
+</RelativeLayout>

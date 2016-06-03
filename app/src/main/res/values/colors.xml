@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="background_color">#A51A84</color>
+    <color name="frame">#b4b4b4</color>
+    <color name="frame_solid">#eee</color>
+    <color name="frame_background">#bcbcbc</color>
+    <color name="accent_1">#ff4683ec</color>
+
+    <color name="text_color">#FFFFFF</color>
+
+    <color name="ColorPrimary">#A51A84</color>
+    <color name="ColorPrimaryDark">#00695C</color>
+    <color name="tabsScrollColor">#004D40</color>
+
+    <color name="toolbar">#efefef</color>
+    <color name="toolbar_text">#8f000000</color>
+    <color name="accent">#2789e4</color>
+
+</resources>

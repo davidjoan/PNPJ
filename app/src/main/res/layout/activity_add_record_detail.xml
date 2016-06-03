@@ -1,0 +1,174 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        layout="@layout/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <RelativeLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="6dp">
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/record_detail_product_text_input_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
+
+            <AutoCompleteTextView
+                android:id="@+id/record_detail_product_autocompleter"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:ems="100"
+                android:hint="@string/medical_sample"
+                android:inputType="textCapCharacters" />
+
+        </android.support.design.widget.TextInputLayout>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp">
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/record_detail_qty_text_input_layout"
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/record_detail_qty"
+                android:hint="@string/qty"
+                android:inputType="number" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/record_detail_qty_calculated_text_input_layout"
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:weightSum="1"
+            android:layout_toLeftOf="@+id/record_date_button"
+            android:layout_toStartOf="@+id/record_date_button">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/record_detail_qty_calculated"
+                android:editable="false"
+                android:inputType="none"
+                android:hint="@string/qty_calculated" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <ImageButton
+            android:src="@drawable/fa_danger"
+            android:layout_height="50dp"
+            android:visibility="gone"
+            android:layout_width="50dp"
+            android:id="@+id/record_detail_alert_button"
+            android:scaleType="fitXY"
+            android:onClick="openAlert"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/add"
+            android:layout_weight="1"
+            style="@style/ButtonAppTheme"
+            android:id="@+id/record_detail_add_record_detail"
+            android:layout_gravity="center_horizontal" />
+
+    </LinearLayout>
+
+
+    <RelativeLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="5dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/medical_sample"
+            android:paddingTop="15dp"
+            android:paddingBottom="10dp"
+            android:textStyle="bold"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/textView2"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/record_detail_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/textView2"
+            android:layout_above="@+id/record_detail_footer_record_detail" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:id="@+id/record_detail_footer_record_detail"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true">
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/back"
+                android:layout_weight="0.5"
+                android:layout_margin="4dp"
+                style="@style/ButtonAppTheme"
+                android:id="@+id/record_detail_back_record_detail"
+                />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/finish"
+                android:layout_weight="0.5"
+                android:layout_margin="4dp"
+                style="@style/ButtonAppTheme"
+                android:id="@+id/record_detail_cancel_record_detail"
+                />
+        </LinearLayout>
+
+
+
+
+    </RelativeLayout>
+
+
+</LinearLayout>

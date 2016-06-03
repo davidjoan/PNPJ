@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="0dp"
+        card_view:cardCornerRadius="4dp"
+        card_view:cardUseCompatPadding="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/record_image"
+                android:layout_width="70dp"
+                android:layout_height="80dp"
+                android:alpha=".80"
+                android:src="@drawable/fa_user_md"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true" />
+
+            <TextView
+                android:id="@+id/record_doctor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:paddingLeft="5dp"
+                android:paddingTop="5dp"
+                android:textStyle="bold"
+                android:textSize="15sp"
+                android:text="@string/doctor_name_value"
+                android:layout_toRightOf="@+id/record_image"
+                android:layout_toLeftOf="@+id/record_sent"
+                android:layout_toStartOf="@+id/record_sent" />
+
+            <TextView
+                android:id="@+id/record_patient"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/record_doctor"
+                android:paddingLeft="5dp"
+                android:textSize="10sp"
+                android:text="@string/patient_name_value"
+                android:layout_toRightOf="@+id/record_image"
+                android:layout_alignRight="@+id/record_doctor"
+                android:layout_alignEnd="@+id/record_doctor" />
+
+            <TextView
+                android:id="@+id/record_code_final"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/record_patient"
+                android:paddingLeft="5dp"
+                android:textSize="10sp"
+                android:text="# 120"
+                android:layout_toRightOf="@+id/record_image" />
+
+
+            <TextView
+                android:id="@+id/record_attention_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="5dp"
+                android:textSize="10sp"
+                android:text="@string/attention_type_value"
+                android:layout_below="@+id/record_patient"
+                android:layout_toRightOf="@+id/textView3"
+                android:layout_toEndOf="@+id/textView3" />
+
+            <TextView
+                android:id="@+id/record_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="5dp"
+                android:textSize="10sp"
+                android:text="@string/date_value"
+                android:layout_below="@+id/record_institution"
+                android:layout_toRightOf="@+id/record_image"
+                android:layout_toLeftOf="@+id/record_qty_mm"
+                android:layout_toStartOf="@+id/record_qty_mm"
+                android:layout_alignParentBottom="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="10sp"
+                android:text="mm: 120"
+                android:id="@+id/record_qty_mm"
+                android:layout_gravity="right"
+                android:paddingRight="5dp"
+                android:textStyle="bold"
+                android:layout_below="@+id/record_institution"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/record_sent"
+                android:src="@drawable/sync_on"
+                android:paddingRight="5dp"
+                android:paddingTop="5dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tipo: "
+                android:textSize="10sp"
+                android:paddingLeft="10dp"
+                android:id="@+id/textView3"
+                android:layout_alignTop="@+id/record_code_final"
+                android:layout_toRightOf="@+id/record_code_final"
+                android:layout_toEndOf="@+id/record_code_final" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Institución: HOSPITAL LARCO HERRERA"
+                android:textSize="10sp"
+                android:paddingLeft="5dp"
+                android:id="@+id/record_institution"
+
+                android:layout_below="@+id/record_code_final"
+                android:layout_alignLeft="@+id/record_code_final"
+                android:layout_alignStart="@+id/record_code_final"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>

@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="pe.cayro.pnpj.v2.NewSpecialMoveActivity"
+    tools:showIn="@layout/activity_new_special_move">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="2dp">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/special_move_type_label"
+            android:id="@+id/textView"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="0.3" />
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/special_move_type_spinner"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="0.7" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="2dp">
+
+
+            <AutoCompleteTextView
+                android:id="@+id/special_move_reason_autocompleter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="6"
+                android:layout_weight="1"
+                android:hint="@string/special_move_reason_label"
+                android:inputType="textCapCharacters" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/special_move_date"
+
+            android:editable="false"
+            android:inputType="none"
+            android:onClick="showDatePickerDialog"
+            android:hint="@string/date"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="2dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine"
+            android:ems="10"
+            android:hint="@string/special_move_comments"
+            android:id="@+id/special_move_description" />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="2dp">
+
+      
+            <AutoCompleteTextView
+                android:id="@+id/special_move_product_autocompleter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="100"
+                android:hint="@string/medical_sample"
+                android:inputType="textCapCharacters"
+                android:layout_toLeftOf="@+id/special_move_qty"
+                android:layout_toStartOf="@+id/special_move_qty" />
+
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/special_move_qty"
+                android:hint="@string/qty"
+                android:inputType="number"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="2dp">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/add"
+            android:layout_weight="1"
+            style="@style/ButtonAppTheme"
+            android:id="@+id/special_move_detail_add_record_detail"
+            android:layout_gravity="center_horizontal" />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="2dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/medical_sample"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:textStyle="bold"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/textView2"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/special_move_detail_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/textView2"
+            android:layout_above="@+id/record_detail_footer_record_detail" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            android:id="@+id/record_detail_footer_record_detail"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true">
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/cancel"
+                android:layout_weight="0.5"
+                android:layout_margin="2dp"
+                style="@style/ButtonAppTheme"
+                android:id="@+id/special_move_detail_back_record_detail"
+                />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/finish"
+                android:layout_weight="0.5"
+                android:layout_margin="2dp"
+                style="@style/ButtonAppTheme"
+                android:id="@+id/special_move_detail_cancel_record_detail"
+                />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>

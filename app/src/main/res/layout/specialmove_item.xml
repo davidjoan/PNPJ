@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="0dp"
+        card_view:cardCornerRadius="4dp"
+        card_view:cardUseCompatPadding="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/specialmove_image"
+                android:layout_width="70dp"
+                android:layout_height="80dp"
+                android:alpha=".80"
+                android:src="@drawable/fa_receive"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true" />
+
+            <TextView
+                android:id="@+id/specialmove_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:paddingLeft="5dp"
+                android:paddingTop="5dp"
+                android:textStyle="bold"
+                android:textSize="15sp"
+                android:text="@string/special_move_type"
+                android:layout_toRightOf="@+id/specialmove_image"
+                android:layout_toLeftOf="@+id/specialmove_sent"
+                android:layout_toStartOf="@+id/specialmove_sent" />
+
+            <TextView
+                android:id="@+id/specialmove_reason"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/specialmove_type"
+                android:paddingLeft="5dp"
+                android:textSize="10sp"
+                android:text="@string/special_move_reason"
+                android:layout_toRightOf="@+id/specialmove_image"
+                android:layout_alignRight="@+id/specialmove_type"
+                android:layout_alignEnd="@+id/specialmove_type" />
+
+
+
+
+            <TextView
+                android:id="@+id/specialmove_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="5dp"
+                android:textSize="10sp"
+                android:text="@string/date_value"
+                android:layout_below="@+id/specialmove_reason"
+                android:layout_toRightOf="@+id/specialmove_image"
+                android:layout_toEndOf="@+id/specialmove_image" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/specialmove_sent"
+                android:src="@drawable/sync_on"
+                android:paddingRight="5dp"
+                android:paddingTop="5dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+
+
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>

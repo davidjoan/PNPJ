@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="0dp"
+        card_view:cardCornerRadius="4dp"
+        card_view:cardUseCompatPadding="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/doctor_image"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:alpha=".80"
+                android:src="@drawable/avatar"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true" />
+
+            <TextView
+                android:id="@+id/doctor_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:paddingLeft="5dp"
+                android:paddingTop="5dp"
+                android:textStyle="bold"
+                android:textSize="15sp"
+                android:text="@string/doctor_name_value"
+                android:layout_toRightOf="@+id/doctor_image" />
+
+            <TextView
+                android:id="@+id/doctor_specialty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/doctor_name"
+                android:paddingLeft="5dp"
+                android:textSize="10sp"
+                android:text="@string/doctor_specialty_value"
+                android:layout_toRightOf="@+id/doctor_image" />
+
+            <TextView
+                android:id="@+id/doctor_code"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/doctor_specialty"
+                android:paddingLeft="5dp"
+                android:textSize="10sp"
+                android:text="@string/doctor_code_value"
+                android:layout_toRightOf="@+id/doctor_image" />
+
+
+        </RelativeLayout>
+
+        </android.support.v7.widget.CardView>
+
+    </LinearLayout>

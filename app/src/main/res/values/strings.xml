@@ -1,0 +1,130 @@
+<resources>
+    <string name="app_name">PNPJ</string>
+    <string name="title_activity_main">PNPJ</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Config.</string>
+
+    <string name="drawer_open">Abrir</string>
+    <string name="drawer_close">Cerrar</string>
+    <string name="title_activity_welcome">PNPJ</string>
+    <string name="text_logo">PNPJ</string>
+    <string name="loading_app">Iniciando Aplicación</string>
+    <string name="updating_app">Actualizando  Aplicación</string>
+    <string name="login_success">Datos Cargados Correctamente</string>
+    <string name="title_activity_maps">Mapa</string>
+    <string name="title_activity_login">Inicio de Sesión</string>
+    <string name="title_activity_institution">Institución</string>
+    <string name="institutions">Instituciones</string>
+    <string name="patients">Pacientes</string>
+    <string name="title_activity_new_record">Nuevo Registro MM</string>
+
+    <string-array name="attention_type_array">
+        <item>Inicio de Tratamiento</item>
+        <item>Fin de Tratamiento</item>
+        <item>Uso Propio</item>
+    </string-array>
+
+    <string-array name="special_move_array">
+        <item>Ingreso</item>
+        <item>Salida</item>
+    </string-array>
+
+    <string name="title_activity_new_patient">Nuevo Paciente</string>
+    <string name="title_activity_new_doctor">Nuevo Médico</string>
+    <string name="record_title">Registro de Entrega</string>
+    <string name="medical_sample">Muestra Médica</string>
+    <string name="assistance">Asistencia</string>
+    <string name="user">Usuario</string>
+    <string name="login">Iniciar Sesión</string>
+    <string name="validation_tracking_code">Ingrese el Número de Atención</string>
+    <string name="title_activity_map">Mapa</string>
+    <string name="new_record">Nuevo Registro de Atención</string>
+    <string name="institution">Institución</string>
+    <string name="login_message">Verifique y/o edite el número del correlativo de atención siguiente.</string>
+    <string name="number_attention">Número Atención</string>
+    <string name="log_in">Ingresar</string>
+    <string name="login_wish">Desea Iniciar Sesión en</string>
+    <string name="save">Guardar</string>
+    <string name="email_field">Correo Electrónico * (opcional)</string>
+    <string name="phone_field">Teléfono  * (opcional)</string>
+    <string name="location_field">Distrito * (opcional)</string>
+    <string name="specialty_field">Especialidad</string>
+    <string name="patient_code_field">Dni</string>
+    <string name="patient_name_field">Nombres y Apellidos</string>
+    <string name="patient_address_field">Dirección * (opcional)</string>
+    <string name="patient_location_field">Distrito</string>
+    <string name="patient_mail_field">Correo Electrónico * (opcional)</string>
+    <string name="record_code"># Atención</string>
+    <string name="date">Fecha</string>
+    <string name="record_attention_type_field">Tipo Atención</string>
+    <string name="doctor">Médico</string>
+    <string name="patient">Paciente</string>
+    <string name="next">Siguiente</string>
+    <string name="doctor_name_value">VEGA CHUQUIANO TOMAS ALEJANDRO</string>
+    <string name="doctor_code_value">CMP: 45676</string>
+    <string name="doctor_specialty_value">MEDICINA GENERAL</string>
+    <string name="institution_name_value">Hospital X</string>
+    <string name="tracking_code_value">676455</string>
+    <string name="institution_address_value">AV. DEFENSORES DEL MORRO 2DO PISO CURVA POLICLINICO NOVAMEDIC</string>
+    <string name="code">123456</string>
+    <string name="patient_name_value">VEGA CHUQUIANO TOMAS ALEJANDRO</string>
+    <string name="patient_dni_value">Dni: 44796683</string>
+    <string name="attention_type_value">Inicio de Tratamiento</string>
+    <string name="date_value">12/01/2016 11:30</string>
+    <string name="tracking_description_value">Inicio Sesión: 12/12/2015 14:00</string>
+    <string name="queries">Consultas</string>
+    <string name="logout">Salir</string>
+    <string name="doctors">Médicos</string>
+    <string name="new_doctor">Nuevo Médico</string>
+    <string name="map">Mapa</string>
+    <string name="new_patient">Nuevo Paciente</string>
+    <string name="close_institutions">Cerrar Institución</string>
+    <string name="search_record">Buscar Registro</string>
+    <string name="title_activity_add_record_detail">Agregar Muestra Médica</string>
+    <string name="voucher"># Comprobante</string>
+    <string name="record_serial">Serie</string>
+    <string name="record_ruc">R.U.C.</string>
+    <string name="finish_treatment">Fin de Tratamiento</string>
+    <string name="qty">Cantidad</string>
+    <string name="qty_calculated">C. Bonificada</string>
+    <string name="add">Agregar</string>
+    <string name="record_whitout_patient">Registro sin Paciente</string>
+    <string name="cancel">Cancelar</string>
+    <string name="finish">Finalizar</string>
+    <string name="patient_firstname_field">Nombres</string>
+    <string name="patient_lastname_field">Apellido Paterno</string>
+    <string name="patient_surname_field">Apellido Materno</string>
+    <string name="title_activity_add_agent">Representante</string>
+    <string name="title_activity_alert">Alerta</string>
+    <string name="close">Cerrar</string>
+    <string name="agent_field">Representante</string>
+    <string name="atentions">Atenciones</string>
+    <string name="reports">Reportes</string>
+    <string name="open_break">Iniciar Refrigerio</string>
+    <string name="close_break">Finalizar Refrigerio</string>
+    <string name="edit_patient">Editar Paciente</string>
+    <string name="edit_doctor">Editar Médico</string>
+    <string name="back">Regresar</string>
+    <string name="remove">Quitar</string>
+    <string name="add_agent">Agregar Representante</string>
+    <string name="title_activity_show_record">Comprobante Registrado</string>
+    <string name="patient_agent_field">Representante</string>
+    <string name="patient_institution_field">Institución</string>
+    <string name="title_activity_syncronization">Sincronización</string>
+    <string name="send_date">Enviar Datos</string>
+    <string name="receive_data">Recibir Datos</string>
+    <string name="title_activity_report_quote">Reporte Cuotas</string>
+    <string name="title_activity_report_detail_quote">Detalle de Avance de Cuota</string>
+    <string name="title_activity_report_user">Usuarios</string>
+    <string name="title_activity_report_stock">Stock</string>
+    <string name="special_movements">Movimientos Especiales</string>
+    <string name="special_move_type">Ingreso</string>
+    <string name="special_move_reason">PERDIDA</string>
+    <string name="title_activity_new_special_move">Nuevo Movimiento</string>
+    <string name="title_activity_show_special_move">Mostrar Movimiento</string>
+    <string name="special_move_type_label">Tipo de Movimiento</string>
+    <string name="special_move_description">Descripción</string>
+    <string name="special_move_reason_label">Motivo de Movimiento</string>
+    <string name="special_move_comments">Comentarios</string>
+</resources>

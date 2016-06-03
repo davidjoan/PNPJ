@@ -1,0 +1,339 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        layout="@layout/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true">
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/record_date_text_input_layout"
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/record_code"
+                android:hint="@string/record_code"
+                android:inputType="number"
+                />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/record_code_text_input_layout"
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:weightSum="1"
+            android:layout_toLeftOf="@+id/record_date_button"
+            android:layout_toStartOf="@+id/record_date_button">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/record_date"
+                android:editable="false"
+                android:inputType="none"
+                android:onClick="showDatePickerDialog"
+                android:hint="@string/date" />
+
+        </android.support.design.widget.TextInputLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="6dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/record_attention_type_field"
+            android:id="@+id/textView"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="0.3" />
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/record_attention_type_spinner"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="0.7" />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="6dp"
+        android:id="@+id/body_doctor"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true">
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/record_doctor_text_input_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:weightSum="1"
+            android:layout_toLeftOf="@+id/record_doctor_button"
+            android:layout_toStartOf="@+id/record_doctor_button">
+            <AutoCompleteTextView
+                android:id="@+id/record_doctor_autocompleter"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:ems="10"
+                android:hint="@string/doctor"
+                android:inputType="textCapCharacters" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <ImageButton
+            android:src="@drawable/ic_user_md"
+            android:layout_height="50dp"
+            android:layout_width="50dp"
+            android:id="@+id/record_doctor_button"
+            android:scaleType="fitXY"
+            android:onClick="openNewDoctor"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="6dp"
+        android:id="@+id/body_patient"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true">
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/record_patient_text_input_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:weightSum="1"
+            android:layout_toLeftOf="@+id/record_patient_button"
+            android:layout_toStartOf="@+id/record_patient_button">
+            <AutoCompleteTextView
+                android:id="@+id/record_patient_autocompleter"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:ems="8"
+                android:hint="@string/patient"
+                android:inputType="textCapCharacters"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <ImageButton
+            android:src="@drawable/ic_user_tie"
+            android:layout_height="50dp"
+            android:layout_width="50dp"
+            android:scaleType="fitXY"
+            android:onClick="openNewPatient"
+            android:id="@+id/record_patient_button"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/finish_treatment"
+        android:id="@+id/header_finish_treatment"
+        android:textStyle="bold"
+        android:layout_gravity="center_horizontal" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:visibility="gone"
+        android:id="@+id/body_finish_treatment_1"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true">
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/record_serial_text_input_layout"
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/record_serial"
+                android:hint="@string/record_serial"
+                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890 "
+                android:inputType="textCapCharacters"
+                />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/record_voucher_text_input_layout"
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:weightSum="1"
+            android:layout_toLeftOf="@+id/record_date_button"
+            android:layout_toStartOf="@+id/record_date_button">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/record_voucher"
+                android:hint="@string/voucher"
+                android:inputType="number"
+                />
+
+        </android.support.design.widget.TextInputLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:id="@+id/body_finish_treatment_2"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true">
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/record_ruc_text_input_layout"
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/record_ruc"
+                android:hint="@string/record_ruc"
+                android:inputType="number"
+                />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/record_sale_date_text_input_layout"
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:weightSum="1"
+            android:layout_toLeftOf="@+id/record_date_button"
+            android:layout_toStartOf="@+id/record_date_button">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/record_sale_date"
+                android:editable="false"
+                android:inputType="none"
+                android:onClick="showSaleDatePickerDialog"
+                android:hint="@string/date" />
+
+        </android.support.design.widget.TextInputLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:id="@+id/body_finish_treatment_3"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true">
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/record_ubigeo_text_input_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
+
+            <AutoCompleteTextView
+                android:id="@+id/record_ubigeo_autocompleter"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:ems="10"
+                android:hint="@string/patient_location_field"
+                android:inputType="textCapCharacters"
+                />
+        </android.support.design.widget.TextInputLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/next"
+            android:layout_weight="1"
+            android:onClick="nextButton"
+            style="@style/ButtonAppTheme"
+            android:id="@+id/record_next_button"
+            android:layout_marginRight="2.5dp"
+            android:layout_gravity="center_horizontal" />
+
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cancel"
+            style="@style/ButtonAppTheme"
+            android:layout_weight="1"
+            android:layout_marginLeft="2.5dp"
+            android:id="@+id/record_cancel_button"
+            android:layout_gravity="center_horizontal" />
+    </LinearLayout>
+</LinearLayout>

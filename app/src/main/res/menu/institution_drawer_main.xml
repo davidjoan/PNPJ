@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_first_fragment"
+            android:icon="@drawable/fa_medical"
+            android:title="@string/atentions" />
+
+        <item
+            android:id="@+id/nav_second_fragment"
+            android:icon="@drawable/fa_user_md"
+            android:title="@string/doctors" />
+
+        <item
+            android:id="@+id/nav_third_fragment"
+            android:icon="@drawable/fa_user_tie"
+            android:title="@string/patients" />
+
+        <item
+            android:id="@+id/nav_fourth_fragment"
+            android:icon="@drawable/fa_calendar"
+            android:title="@string/assistance" />
+        <item
+            android:id="@+id/nav_five_fragment"
+            android:icon="@drawable/fa_document"
+            android:title="@string/queries" />
+
+        <item
+            android:id="@+id/nav_six_fragment"
+            android:icon="@drawable/fa_sync"
+            android:title="@string/special_movements" />
+
+    </group>
+</menu>
