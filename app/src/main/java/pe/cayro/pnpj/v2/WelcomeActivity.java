@@ -26,6 +26,7 @@ import pe.cayro.pnpj.v2.api.RestClient;
 import pe.cayro.pnpj.v2.model.Agent;
 import pe.cayro.pnpj.v2.model.AttentionType;
 import pe.cayro.pnpj.v2.model.Doctor;
+import pe.cayro.pnpj.v2.model.DoctorType;
 import pe.cayro.pnpj.v2.model.Institution;
 import pe.cayro.pnpj.v2.model.Patient;
 import pe.cayro.pnpj.v2.model.Product;
@@ -63,22 +64,13 @@ public class WelcomeActivity extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-
-                SharedPreferences settings = getSharedPreferences(Constants.PREFERENCES_SAM, 0);
-                String cycleLoaded = settings.getString(Constants.CYCLE_LOADED, "");
-
-                if (cycleLoaded.equals(Constants.YES)) {
-                    Intent intent = new Intent(WelcomeActivity.this, MainActivity.class);
-                    WelcomeActivity.this.startActivity(intent);
-                    finish();
-                } else {
                     progress.setCancelable(false);
                     progress.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
                     progress.setMax(11);
                     progress.setMessage(Constants.SINCRONIZATION);
                     progress.show();
                     new LoginAsyncTask(getApplicationContext()).execute(Constants.EMPTY);
-                }
+
             }
         }, SPLASH_DURATION);
     }
@@ -132,13 +124,11 @@ public class WelcomeActivity extends AppCompatActivity {
 
             this.publishProgress(Constants.OBTAINING_IMEI);
 
-            //
             //Replace for implement in production enable the following lines of code
-            //
-            //Log.i(TAG, telephonyManager.getDeviceId());
+
+            Log.i(TAG, telephonyManager.getDeviceId());
 
             //String imei = telephonyManager.getDeviceId();
-
 
             String imei = Constants.IMEI_TEST;
 
@@ -148,41 +138,25 @@ public class WelcomeActivity extends AppCompatActivity {
 
                 realm.beginTransaction();
 
-                User user = realm.createObject(User.class);
-                //[{"id":1,"code":"0","name":"DESARROLLO","imei":"000000000000000","rol":"REG","active":true}]
-                user.setId(1);
-                user.setCode("0");
-                user.setName("DESARROLLO");
-                user.setImei("000000000000000");
-                user.setRol("REG");
-                user.setActive(true);
-                realm.copyToRealmOrUpdate(user);
-/*
-
-                realm.clear(Institution.class);
-                realm.clear(AttentionType.class);
-                realm.clear(User.class);
                 realm.clear(Specialty.class);
-                realm.clear(Product.class);
                 realm.clear(Doctor.class);
-                realm.clear(Agent.class);
-                realm.clear(Ubigeo.class);
+                realm.clear(DoctorType.class);
+                realm.clear(Specialty.class);
                 realm.clear(Patient.class);
                 realm.clear(TypeMovement.class);
+               // realm.clear(Institution.class);
 
                 this.publishProgress(Constants.LOADING_USERS);
                 List<User> users = RestClient.get().getUserByImei(imei);
                 User user = users.get(0);
                 realm.copyToRealmOrUpdate(user);
 
+                /*
                 this.publishProgress(Constants.LOADING_INSTITUTIONS);
                 List<Institution> institutions = RestClient.get().getListInstitutions(imei,
                         user.getId());
                 realm.copyToRealmOrUpdate(institutions);
-
-                this.publishProgress(Constants.LOADING_ATTENTION_TYPES);
-                List<AttentionType> attentionTypes = RestClient.get().getAttentionTypes(imei);
-                realm.copyToRealmOrUpdate(attentionTypes);
+*/
 
                 this.publishProgress(Constants.LOADING_SPECIALTIES);
                 List<Specialty> specialties = RestClient.get().getListSpecialties(imei);
@@ -207,7 +181,15 @@ public class WelcomeActivity extends AppCompatActivity {
                     doctorsTemp.add(temp);
                 }
 
-                realm.copyToRealmOrUpdate(doctorsTemp);
+                List<Doctor> doctorsTemp2 = new ArrayList<Doctor>();
+                for(Doctor temp : doctors){
+                    DoctorType tempDoctorType = realm.where(DoctorType.class).equalTo(Constants.ID,
+                            temp.getDoctorTypeId()).findFirst();
+                    temp.setDoctorType(tempDoctorType);
+                    doctorsTemp2.add(temp);
+                }
+
+                realm.copyToRealmOrUpdate(doctorsTemp2);
 
                 this.publishProgress(Constants.LOADING_PRODUCTS);
                 List<Product> products = RestClient.get().getListProducts(imei);
@@ -222,15 +204,7 @@ public class WelcomeActivity extends AppCompatActivity {
                 realm.copyToRealmOrUpdate(patients);
 
                 realm.commitTransaction();
-*/
-                realm.commitTransaction();
-                editor.putString(Constants.CYCLE_LOADED, Constants.YES);
-                editor.putBoolean(Constants.SNACK, false);
-                editor.putString(Constants.SESSION, Constants.NO);
-                editor.putInt(Constants.DEFAULT_AGENT_ID, 0);
-                editor.putInt(Constants.DEFAULT_INSTITUTION_ID,0);
 
-                editor.apply();
 
             } finally {
                 if (realm != null) {

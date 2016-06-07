@@ -7,6 +7,7 @@ import java.util.List;
 import pe.cayro.pnpj.v2.model.Agent;
 import pe.cayro.pnpj.v2.model.AttentionType;
 import pe.cayro.pnpj.v2.model.Doctor;
+import pe.cayro.pnpj.v2.model.DoctorType;
 import pe.cayro.pnpj.v2.model.Institution;
 import pe.cayro.pnpj.v2.model.Patient;
 import pe.cayro.pnpj.v2.model.Product;
@@ -43,6 +44,10 @@ public interface Api {
 
     @GET(Constants.API_DOCTOR)
     List<Doctor> getListDoctors(@Query(Constants.ID_KEY) String imei);
+
+    @GET(Constants.API_DOCTOR_TYPE)
+    List<DoctorType> getListDoctorType(@Query(Constants.ID_KEY) String imei);
+
 
     @GET(Constants.API_ATTENTION_TYPE)
     List<AttentionType> getAttentionTypes(@Query(Constants.ID_KEY) String imei);

@@ -5,7 +5,7 @@ package pe.cayro.pnpj.v2.util;
  */
 public class Constants {
 
-    public static final String PREFERENCES_SAM = "preferences_sam";
+    public static final String PREFERENCES_SAM = "preferences_pnpj";
 
     public static final String URL = "http://app.bagoperu.com.pe:82/wsPJPN/";
     public static final String CMP_PHOTO_SERVER = "http://app.bagoperu.com.pe:82/CMP/";
@@ -16,10 +16,11 @@ public class Constants {
     public static final String API_AGENT = "/agents";
     public static final String API_PATIENT = "/patients";
     public static final String API_UBIGEO = "/ubigeos";
-    public static final String API_DOCTOR = "/doctors";
+    public static final String API_DOCTOR = "/Doctors";
     public static final String API_PRODUCT = "/products";
-    public static final String API_SPECIALTY = "/specialties";
+    public static final String API_SPECIALTY = "/Specialties";
     public static final String API_INSTITUTION = "/institutions";
+    public static final String API_DOCTOR_TYPE = "/DoctorsTypes";
     public static final String API_ATTENTION_TYPE = "/attentionTypes";
 
 
@@ -144,4 +145,5 @@ public class Constants {
     public static final String IN = "I";  //ingreso
     public static final String TYPE = "type";
     public static final String DOCTOR_TYPE_ID = "type";
+
 }

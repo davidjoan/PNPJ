@@ -127,4 +127,6 @@
     <string name="special_move_description">Descripción</string>
     <string name="special_move_reason_label">Motivo de Movimiento</string>
     <string name="special_move_comments">Comentarios</string>
+    <string name="doctor_doctor_type_field">Tipo de Médico</string>
+    <string name="phone">Teléfono</string>
 </resources>

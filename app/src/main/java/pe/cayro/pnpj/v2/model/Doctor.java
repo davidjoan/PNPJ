@@ -58,7 +58,9 @@ public class Doctor extends RealmObject {
     @SerializedName(Constants.CREATED_AT)
     private Date createdAt;
 
+
     private Specialty specialty;
+    private DoctorType doctorType;
 
     public String getUuid() {
         return uuid;
@@ -226,5 +228,13 @@ public class Doctor extends RealmObject {
 
     public void setMail(String mail) {
         this.mail = mail;
+    }
+
+    public DoctorType getDoctorType() {
+        return doctorType;
+    }
+
+    public void setDoctorType(DoctorType doctorType) {
+        this.doctorType = doctorType;
     }
 }

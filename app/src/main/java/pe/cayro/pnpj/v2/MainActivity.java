@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
         fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.flContent,
-                FragmentInstitution.newInstance()).commit();
+                FragmentDoctor.newInstance()).commit();
 
         setupDrawerContent(nvDrawer);
         nvDrawer.getMenu().getItem(0).setChecked(true);
