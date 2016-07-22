@@ -97,12 +97,9 @@ public class ShowRecordActivity extends AppCompatActivity {
                 break;
         }
 
-        if(record.getInstitutionOriginId() > 0){
+
             findViewById(R.id.body_finish_treatment_5).setVisibility(View.VISIBLE);
-            institution.setText(record.getInstitutionOrigin().getName());
-        }else{
-            findViewById(R.id.body_finish_treatment_5).setVisibility(View.GONE);
-        }
+            institution.setText(record.getInstitutionOrigin().getBusinessname());
 
         if(record.getAgentId() > 0){
             findViewById(R.id.body_finish_treatment_4).setVisibility(View.VISIBLE);

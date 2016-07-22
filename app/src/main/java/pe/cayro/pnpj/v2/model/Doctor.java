@@ -11,23 +11,12 @@ import pe.cayro.pnpj.v2.util.Constants;
 /**
  * Created by David on 7/01/16.
  *
- * {"uuid":"3458FF8F-DB8C-5FD2-E053-0401A8C06FB8",
- *  "type":1,
- *  "code":"7575",
- *  "firstname":"VIRGINIA",
- *  "lastname":"VASCONCELLOS",
- *  "surname":"BOGGIO",
- *  "sex":"M",
- *  "specialty_id":28,
- *  "score":"A3",
- *  "prehigh":"false",
- *  "check":"true",
- *  "active":"true",
- *  "zone":0,"phone":null,
- *  "cantsurgery":0,
- *  "canthospital":0,
- *  "mail":null,
- *  "sent":"true"}
+ * {"uuid":"827ac554-7807-49d4-b29d-e3c06d1aedbb",
+ * "type":2,"code":"46464","firstname":"HFHDHDH","lastname":"DHDJD","surname":"BDHDHDH",
+ * "sex":"1","specialty_id":17,"score":null,"prehigh":"true","check":"false","active":2,
+ * "zone":1,"phone":null,"cantsurgery":0,"canthospital":0,"comment":null,
+ * "alert":"false","reference":"prueba","mail":null,"user_id":2,
+ * "user":"SISTEMAS 1 REG","created_at":"2016-06-10 21:50:16","sent":"true"}
  */
 public class Doctor extends RealmObject {
 
@@ -41,23 +30,25 @@ public class Doctor extends RealmObject {
     private String firstname;
     private String lastname;
     private String surname;
-    private String sex;
+    private int sex;
     @SerializedName(Constants.SPECIALTY_ID)
     private int specialtyId;
     private String score;
     private boolean prehigh;
-    private boolean check;
+    private int check;
     private boolean active;
     private int zone;
     private String phone;
     private int cantsurgery;
     private int canthospital;
+    private String comment;
+    private boolean alert;
+    private String reference;
     private String mail;
-    private boolean sent;
-
+    private String user;
     @SerializedName(Constants.CREATED_AT)
     private Date createdAt;
-
+    private boolean sent;
 
     private Specialty specialty;
     private DoctorType doctorType;
@@ -76,6 +67,14 @@ public class Doctor extends RealmObject {
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+
+    public int getDoctorTypeId() {
+        return doctorTypeId;
+    }
+
+    public void setDoctorTypeId(int doctorTypeId) {
+        this.doctorTypeId = doctorTypeId;
     }
 
     public String getCode() {
@@ -110,6 +109,14 @@ public class Doctor extends RealmObject {
         this.surname = surname;
     }
 
+    public int getSex() {
+        return sex;
+    }
+
+    public void setSex(int sex) {
+        this.sex = sex;
+    }
+
     public int getSpecialtyId() {
         return specialtyId;
     }
@@ -126,54 +133,6 @@ public class Doctor extends RealmObject {
         this.score = score;
     }
 
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
-    public Specialty getSpecialty() {
-        return specialty;
-    }
-
-    public void setSpecialty(Specialty specialty) {
-        this.specialty = specialty;
-    }
-
-    public boolean isSent() {
-        return sent;
-    }
-
-    public void setSent(boolean sent) {
-        this.sent = sent;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public int getDoctorTypeId() {
-        return doctorTypeId;
-    }
-
-    public void setDoctorTypeId(int doctorTypeId) {
-        this.doctorTypeId = doctorTypeId;
-    }
-
-    public String getSex() {
-        return sex;
-    }
-
-    public void setSex(String sex) {
-        this.sex = sex;
-    }
-
     public boolean isPrehigh() {
         return prehigh;
     }
@@ -182,12 +141,20 @@ public class Doctor extends RealmObject {
         this.prehigh = prehigh;
     }
 
-    public boolean isCheck() {
+    public int getCheck() {
         return check;
     }
 
-    public void setCheck(boolean check) {
+    public void setCheck(int check) {
         this.check = check;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     public int getZone() {
@@ -222,12 +189,68 @@ public class Doctor extends RealmObject {
         this.canthospital = canthospital;
     }
 
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public boolean isAlert() {
+        return alert;
+    }
+
+    public void setAlert(boolean alert) {
+        this.alert = alert;
+    }
+
+    public String getReference() {
+        return reference;
+    }
+
+    public void setReference(String reference) {
+        this.reference = reference;
+    }
+
     public String getMail() {
         return mail;
     }
 
     public void setMail(String mail) {
         this.mail = mail;
+    }
+
+    public String getUser() {
+        return user;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public boolean isSent() {
+        return sent;
+    }
+
+    public void setSent(boolean sent) {
+        this.sent = sent;
+    }
+
+    public Specialty getSpecialty() {
+        return specialty;
+    }
+
+    public void setSpecialty(Specialty specialty) {
+        this.specialty = specialty;
     }
 
     public DoctorType getDoctorType() {

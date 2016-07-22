@@ -326,7 +326,7 @@ public class FragmentRecords extends Fragment {
             viewHolder.date.setText(Constants.DATE_FIELD+dateFormat);
 
             viewHolder.institution.setText(Constants.INSTITUTION_LABEL+
-                    item.getInstitutionOrigin().getName());
+                    item.getInstitutionOrigin().getBusinessname());
 
             if(item.isSent()){
                 viewHolder.sent.setImageResource(R.drawable.sync_on);

@@ -1,14 +1,14 @@
 <resources>
-    <string name="app_name">PNPJ</string>
-    <string name="title_activity_main">PNPJ</string>
+    <string name="app_name">Alta Perú</string>
+    <string name="title_activity_main">Alta Perú</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Config.</string>
 
     <string name="drawer_open">Abrir</string>
     <string name="drawer_close">Cerrar</string>
-    <string name="title_activity_welcome">PNPJ</string>
-    <string name="text_logo">PNPJ</string>
+    <string name="title_activity_welcome">Alta Perú</string>
+    <string name="text_logo">Alta Perú</string>
     <string name="loading_app">Iniciando Aplicación</string>
     <string name="updating_app">Actualizando  Aplicación</string>
     <string name="login_success">Datos Cargados Correctamente</string>
@@ -28,6 +28,34 @@
     <string-array name="special_move_array">
         <item>Ingreso</item>
         <item>Salida</item>
+    </string-array>
+
+    <string-array name="doctor_sex_array">
+        <item>H</item>
+        <item>M</item>
+    </string-array>
+
+    <string-array name="doctor_type_array">
+        <item>MÉDICOS</item>
+        <item>OBSTETRAS</item>
+        <item>ODONTOLOGOS</item>
+        <item>TÈCNICO EN ENFERMERIA</item>
+        <item>ENFERMEROS</item>
+        <item>NO IDENTIFICADO</item>
+    </string-array>
+
+    <string-array name="doctor_zone_array">
+        <item>SEDE</item>
+        <item>SOLITARIO</item>
+        <item>VIAJE</item>
+    </string-array>
+
+    <string-array name="institution_type_array">
+        <item>HOSPITAL</item>
+        <item>CLINICA</item>
+        <item>POLICLINICO</item>
+        <item>SISOL</item>
+        <item>CONSULTORIO</item>
     </string-array>
 
     <string name="title_activity_new_patient">Nuevo Paciente</string>
@@ -77,6 +105,7 @@
     <string name="logout">Salir</string>
     <string name="doctors">Médicos</string>
     <string name="new_doctor">Nuevo Médico</string>
+    <string name="new_institution">Nueva Institución</string>
     <string name="map">Mapa</string>
     <string name="new_patient">Nuevo Paciente</string>
     <string name="close_institutions">Cerrar Institución</string>
@@ -105,6 +134,7 @@
     <string name="close_break">Finalizar Refrigerio</string>
     <string name="edit_patient">Editar Paciente</string>
     <string name="edit_doctor">Editar Médico</string>
+    <string name="edit_institution">Editar Institución</string>
     <string name="back">Regresar</string>
     <string name="remove">Quitar</string>
     <string name="add_agent">Agregar Representante</string>
@@ -129,4 +159,6 @@
     <string name="special_move_comments">Comentarios</string>
     <string name="doctor_doctor_type_field">Tipo de Médico</string>
     <string name="phone">Teléfono</string>
+    <string name="title_activity_new_institution">Nueva Institución</string>
+    <string name="doctor_code">Colegiatura</string>
 </resources>

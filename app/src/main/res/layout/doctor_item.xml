@@ -5,6 +5,8 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
+
+
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -38,7 +40,9 @@
                 android:textStyle="bold"
                 android:textSize="15sp"
                 android:text="@string/doctor_name_value"
-                android:layout_toRightOf="@+id/doctor_image" />
+                android:layout_toRightOf="@+id/doctor_image"
+                android:layout_toLeftOf="@+id/doctor_status"
+                android:layout_toStartOf="@+id/doctor_status" />
 
             <TextView
                 android:id="@+id/doctor_specialty"
@@ -48,7 +52,9 @@
                 android:paddingLeft="5dp"
                 android:textSize="10sp"
                 android:text="@string/doctor_specialty_value"
-                android:layout_toRightOf="@+id/doctor_image" />
+                android:layout_toRightOf="@+id/doctor_image"
+                android:layout_toLeftOf="@+id/doctor_status"
+                android:layout_toStartOf="@+id/doctor_status" />
 
             <TextView
                 android:id="@+id/doctor_code"
@@ -58,7 +64,83 @@
                 android:paddingLeft="5dp"
                 android:textSize="10sp"
                 android:text="@string/doctor_code_value"
-                android:layout_toRightOf="@+id/doctor_image" />
+                android:layout_toRightOf="@+id/doctor_image"
+                android:layout_alignRight="@+id/doctor_specialty"
+                android:layout_alignEnd="@+id/doctor_specialty" />
+
+            <TextView
+                android:id="@+id/doctor_category"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/doctor_code"
+                android:paddingLeft="5dp"
+                android:textSize="10sp"
+                android:text="Categoria"
+
+                android:layout_toRightOf="@+id/doctor_image"
+                android:layout_alignRight="@+id/doctor_code"
+                android:layout_alignEnd="@+id/doctor_code" />
+
+
+
+            <TextView
+                android:id="@+id/doctor_usuario"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/doctor_category"
+                android:paddingLeft="5dp"
+                android:textSize="10sp"
+                android:text="Usuario"
+                android:textStyle="bold"
+                android:layout_toRightOf="@+id/doctor_image"
+                android:layout_alignRight="@+id/doctor_category"
+                android:layout_alignEnd="@+id/doctor_category" />
+
+            <TextView
+                android:id="@+id/doctor_comment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/doctor_usuario"
+                android:paddingLeft="5dp"
+                android:textSize="10sp"
+                android:text="Comentario"
+                android:textColor="@android:color/holo_red_dark"
+                android:layout_toRightOf="@+id/doctor_image"
+                android:layout_alignRight="@+id/doctor_usuario"
+                android:layout_alignEnd="@+id/doctor_usuario" />
+
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/doctor_status"
+                android:src="@drawable/sync_on"
+                android:paddingRight="5dp"
+                android:paddingTop="5dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/doctor_check"
+                android:src="@drawable/vp0"
+                android:paddingRight="5dp"
+                android:paddingTop="5dp"
+                android:layout_alignParentTop="false"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/alert"
+                android:src="@drawable/fa_alerta"
+                android:layout_alignBottom="@+id/doctor_check"
+                android:layout_toLeftOf="@+id/doctor_check"
+                android:layout_toStartOf="@+id/doctor_check" />
 
 
         </RelativeLayout>

@@ -41,7 +41,7 @@ public class InstitutionMapActivity extends AppCompatActivity implements OnMapRe
         tracking = realm.where(Tracking.class).equalTo(Constants.UUID, trackingUuid).findFirst();
 
         if(tracking.getInstitution() != null){
-            toolbar.setTitle(tracking.getInstitution().getName());
+            toolbar.setTitle(tracking.getInstitution().getBusinessname());
             toolbar.setSubtitle(tracking.getInstitution().getAddress());
         }else{
             toolbar.setTitle("Refrigerio");
@@ -68,15 +68,6 @@ public class InstitutionMapActivity extends AppCompatActivity implements OnMapRe
 
         mMap.addMarker(new MarkerOptions().position(sydney).title(getString(R.string.user)));
 
-        if(tracking.getInstitution() != null){
-
-            LatLng institutionLatLng = new LatLng(tracking.getInstitution().getLatitude(),
-                    tracking.getInstitution().getLongitude());
-
-            mMap.addMarker(new MarkerOptions()
-                    .position(institutionLatLng)
-                    .title(tracking.getInstitution().getName()));
-        }
 
         CameraPosition cameraPosition = new CameraPosition.Builder()
                 .target(sydney).zoom(12).build();

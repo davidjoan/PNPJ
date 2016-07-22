@@ -138,7 +138,7 @@ public class NewRecordActivity extends AppCompatActivity {
         }
 
         toolbar.setTitle(R.string.new_record);
-        toolbar.setSubtitle(tracking.getInstitution().getName());
+        toolbar.setSubtitle(tracking.getInstitution().getBusinessname());
         setSupportActionBar(toolbar);
 
         //Preparing Object
@@ -587,14 +587,14 @@ public class NewRecordActivity extends AppCompatActivity {
                 record.setAgentId(agentId);
             }
 
-            int institutionId = settings.getInt(Constants.DEFAULT_INSTITUTION_ID, 0);
+            String institutionId = settings.getString(Constants.DEFAULT_INSTITUTION_ID,"");
 
-            if( institutionId > 0){
-                Institution institution = realm.where(Institution.class)
+
+            Institution institution = realm.where(Institution.class)
                         .equalTo(Constants.ID, institutionId).findFirst();
-                record.setInstitutionOrigin(institution);
-                record.setInstitutionOriginId(institutionId);
-            }
+            record.setInstitutionOrigin(institution);
+            record.setInstitutionOriginId(institutionId);
+
 
             //Finish treatment
             if(record.getAttentionTypeId() == 2){

@@ -1,6 +1,5 @@
 package pe.cayro.pnpj.v2;
 
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.location.Location;
 import android.os.Bundle;
@@ -11,7 +10,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -27,7 +25,6 @@ import com.google.android.gms.location.LocationServices;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.UUID;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -75,10 +72,10 @@ public class InstitutionActivity extends AppCompatActivity implements GoogleApiC
 
         buildGoogleApiClient();
 
-        trackingCode = getIntent().getIntExtra(Constants.TRACKING_CODE, 0);
+        trackingCode    = getIntent().getIntExtra(Constants.TRACKING_CODE, 0);
         institutionName = getIntent().getStringExtra(Constants.INSTITUTION_NAME);
-        institutionId = getIntent().getIntExtra(Constants.INSTITUTION_ID, 0);
-        trackingUuid = getIntent().getStringExtra(Constants.UUID);
+        institutionId   = getIntent().getIntExtra(Constants.INSTITUTION_ID, 0);
+        trackingUuid    = getIntent().getStringExtra(Constants.UUID);
 
         ButterKnife.bind(this);
 
@@ -114,7 +111,7 @@ public class InstitutionActivity extends AppCompatActivity implements GoogleApiC
         View header = nvDrawer.inflateHeaderView(R.layout.institution_header);
 
         TextView institutionNameTextView = (TextView) header.findViewById(R.id.institution_name);
-        institutionNameTextView.setText(institution.getName());
+        institutionNameTextView.setText(institution.getBusinessname());
         TextView institutionCodeTextView = (TextView) header.findViewById(R.id.tracking_code);
         institutionCodeTextView.setText(Constants.CODE_FIELD+tracking.getCode());
     }
@@ -229,123 +226,15 @@ public class InstitutionActivity extends AppCompatActivity implements GoogleApiC
         int id = item.getItemId();
 
         switch (id){
-            case R.id.action_close_institution :
-                doExit();
-                break;
 
             case R.id.action_close_break :
-                changeSnack(false);
                 break;
 
             case R.id.action_open_break :
-                changeSnack(true);
                 break;
-
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    /**
-     * Exit the app if user select yes.
-     */
-    private void changeSnack(final boolean status) {
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(getSupportActionBar().getThemedContext());
-        alertDialog.setPositiveButton(Constants.SI, new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-                mGoogleApiClient.connect();
-
-                mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-
-                realm.beginTransaction();
-                Tracking tracking = new Tracking();
-                tracking.setUuid(UUID.randomUUID().toString());
-                if(status){
-                    tracking.setType(Constants.OPEN);
-                }else{
-                    tracking.setType(Constants.CLOSE);
-                }
-
-                tracking.setCode(trackingCode);
-                tracking.setInstitutionId(institution.getId());
-                tracking.setCreatedAt(new Date());
-                tracking.setUserId(user.getId());
-                tracking.setInstitution(institution);
-                tracking.setSent(Boolean.FALSE);
-
-                if(mLastLocation != null){
-                    tracking.setLatitude(mLastLocation.getLatitude());
-                    tracking.setLongitude(mLastLocation.getLongitude());
-                }
-
-                realm.copyToRealmOrUpdate(tracking);
-                realm.commitTransaction();
-
-                SharedPreferences settings = getApplicationContext().
-                        getSharedPreferences(Constants.PREFERENCES_SAM, 0);
-                SharedPreferences.Editor editor = settings.edit();
-                editor.putBoolean(Constants.SNACK, status);
-                editor.commit();
-
-                invalidateOptionsMenu();
-            }
-        });
-        alertDialog.setNegativeButton(Constants.NO, null);
-        alertDialog.setMessage("Quiere "+((status)?"Iniciar":"Finalizar")+" Refrigerio?");
-        alertDialog.setTitle(getString(R.string.app_name));
-        alertDialog.show();
-    }
-
-    /**
-     * Exit the app if user select yes.
-     */
-    private void doExit() {
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
-        alertDialog.setPositiveButton(Constants.SI, new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-                mGoogleApiClient.connect();
-
-                mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-
-                realm.beginTransaction();
-                Tracking tracking = new Tracking();
-                tracking.setUuid(UUID.randomUUID().toString());
-                tracking.setCode(trackingCode);
-                tracking.setType(Constants.LOGOUT);
-                tracking.setInstitutionId(institution.getId());
-                tracking.setCreatedAt(new Date());
-                tracking.setUserId(user.getId());
-                tracking.setInstitution(institution);
-                tracking.setSent(Boolean.FALSE);
-
-                if(mLastLocation != null){
-                    tracking.setLatitude(mLastLocation.getLatitude());
-                    tracking.setLongitude(mLastLocation.getLongitude());
-                }
-
-                realm.copyToRealm(tracking);
-                realm.commitTransaction();
-
-                SharedPreferences settings = getApplicationContext().
-                        getSharedPreferences(Constants.PREFERENCES_SAM, 0);
-                SharedPreferences.Editor editor = settings.edit();
-                editor.putString(Constants.SESSION, Constants.NO);
-                editor.putString(Constants.SESSION_TRACKING, Constants.EMPTY);
-                editor.commit();
-
-                finish();
-            }
-        });
-        alertDialog.setNegativeButton(Constants.NO, null);
-        alertDialog.setMessage(Constants.LOGOUT_2+institutionName+"?");
-        alertDialog.setTitle(getString(R.string.app_name));
-        alertDialog.show();
     }
 
     @Override

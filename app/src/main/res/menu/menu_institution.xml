@@ -1,6 +1,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools" tools:context="pe.cayro.pnpj.v2.InstitutionActivity">
-    <item android:id="@+id/action_close_institution" android:title="@string/close_institutions"
-        android:orderInCategory="100" app:showAsAction="never" />
+    xmlns:tools="http://schemas.android.com/tools" tools:context="pe.cayro.pnpj.v2.NewInstitutionActivity">
+    <item
+        android:id="@+id/action_search"
+        android:icon="@android:drawable/ic_menu_search"
+        app:showAsAction="always"
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        android:title="@string/search_record" />
+
+    <item android:id="@+id/action_new_institution" android:title="@string/new_institution"
+        android:icon="@drawable/fa_add"
+        android:orderInCategory="100" app:showAsAction="always" />
 </menu>

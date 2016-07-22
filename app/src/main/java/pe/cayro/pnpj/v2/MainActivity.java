@@ -30,9 +30,7 @@ import android.widget.TextView;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
-import com.squareup.picasso.Picasso;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
 
@@ -44,10 +42,6 @@ import pe.cayro.pnpj.v2.model.User;
 import pe.cayro.pnpj.v2.service.SamAlarmReceiver;
 import pe.cayro.pnpj.v2.ui.FragmentDoctor;
 import pe.cayro.pnpj.v2.ui.FragmentInstitution;
-import pe.cayro.pnpj.v2.ui.FragmentPatient;
-import pe.cayro.pnpj.v2.ui.FragmentReport;
-import pe.cayro.pnpj.v2.ui.FragmentSpecialMovement;
-import pe.cayro.pnpj.v2.ui.FragmentTracking;
 import pe.cayro.pnpj.v2.util.Constants;
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
@@ -134,7 +128,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
             Intent intent = new Intent(MainActivity.this, InstitutionActivity.class);
             intent.putExtra(Constants.TRACKING_CODE, tempTracking.getCode());
-            intent.putExtra(Constants.INSTITUTION_NAME, tempTracking.getInstitution().getName());
+            intent.putExtra(Constants.INSTITUTION_NAME, tempTracking.getInstitution().getBusinessname());
             intent.putExtra(Constants.INSTITUTION_ID, tempTracking.getInstitutionId());
             intent.putExtra(Constants.UUID, tempTracking.getUuid());
             MainActivity.this.startActivity(intent);
@@ -184,9 +178,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                     fragment = FragmentDoctor.newInstance();
                     break;
                 case R.id.nav_second_fragment:
-                    fragment = FragmentPatient.newInstance();
-                    break;
-                case R.id.nav_third_fragment:
                     fragment = FragmentInstitution.newInstance();
                     break;
                 case R.id.nav_five_fragment:
@@ -209,34 +200,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
 
-        SharedPreferences settings = getApplicationContext().
-                getSharedPreferences(Constants.PREFERENCES_SAM, 0);
-
-        Calendar startTime = Calendar.getInstance();
-        startTime.setTime(new Date());
-        startTime.set(Calendar.HOUR_OF_DAY, 0);
-        startTime.set(Calendar.MINUTE, 0);
-        startTime.set(Calendar.SECOND, 0);
-
-        Calendar finishTime = Calendar.getInstance();
-        finishTime.setTime(new Date());
-        finishTime.set(Calendar.HOUR_OF_DAY, 24);
-        finishTime.set(Calendar.MINUTE, 0);
-        finishTime.set(Calendar.SECOND, 0);
-
-        Tracking temp = realm.where(Tracking.class)
-                .equalTo("type","close")
-                .between("createdAt",startTime.getTime(), finishTime.getTime())
-                .findFirst();
-
-        if(temp == null){
-            Boolean snack = settings.getBoolean(Constants.SNACK,false);
-            if(snack.booleanValue()){
-                getMenuInflater().inflate(R.menu.menu_close_break, menu);
-            }else{
-                getMenuInflater().inflate(R.menu.menu_open_break, menu);
-            }
-        }
         return true;
     }
 
@@ -266,7 +229,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 finish();
                 break;
         }
-
 
         return super.onOptionsItemSelected(item);
     }

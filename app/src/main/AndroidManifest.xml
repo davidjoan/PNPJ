@@ -92,6 +92,14 @@
                 android:value="pe.cayro.pnpj.v2.InstitutionActivity" />
         </activity>
         <activity
+            android:name=".NewInstitutionActivity"
+            android:label="@string/title_activity_new_institution"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="pe.cayro.pnpj.v2.MainActivity" />
+        </activity>
+        <activity
             android:name=".AddRecordDetailActivity"
             android:label="@string/title_activity_add_record_detail"
             android:parentActivityName=".NewRecordActivity"

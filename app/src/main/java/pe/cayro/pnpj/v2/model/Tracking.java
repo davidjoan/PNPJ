@@ -16,7 +16,7 @@ public class Tracking extends RealmObject {
     @PrimaryKey
     private String uuid;
     @SerializedName(Constants.INSTITUTION_ID)
-    private int institutionId;
+    private String institutionId;
     @SerializedName(Constants.USER_ID)
     private int userId;
     private int code;
@@ -37,11 +37,11 @@ public class Tracking extends RealmObject {
         this.uuid = uuid;
     }
 
-    public int getInstitutionId() {
+    public String getInstitutionId() {
         return institutionId;
     }
 
-    public void setInstitutionId(int institutionId) {
+    public void setInstitutionId(String institutionId) {
         this.institutionId = institutionId;
     }
 

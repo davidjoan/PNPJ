@@ -107,7 +107,7 @@ public class FragmentTracking extends Fragment {
             Tracking item = items.get(position);
 
             if(item.getInstitution() != null){
-                viewHolder.name.setText(item.getInstitution().getName());
+                viewHolder.name.setText(item.getInstitution().getBusinessname());
             }else{
                 viewHolder.name.setText("Refrigerio");
             }

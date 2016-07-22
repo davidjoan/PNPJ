@@ -23,15 +23,14 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import io.realm.Realm;
 import pe.cayro.pnpj.v2.api.RestClient;
-import pe.cayro.pnpj.v2.model.Agent;
-import pe.cayro.pnpj.v2.model.AttentionType;
 import pe.cayro.pnpj.v2.model.Doctor;
 import pe.cayro.pnpj.v2.model.DoctorType;
+import pe.cayro.pnpj.v2.model.DoctorsCloseUp;
 import pe.cayro.pnpj.v2.model.Institution;
+import pe.cayro.pnpj.v2.model.InstitutionTypes;
+import pe.cayro.pnpj.v2.model.InstitutionZone;
 import pe.cayro.pnpj.v2.model.Patient;
-import pe.cayro.pnpj.v2.model.Product;
 import pe.cayro.pnpj.v2.model.Specialty;
-import pe.cayro.pnpj.v2.model.TypeMovement;
 import pe.cayro.pnpj.v2.model.Ubigeo;
 import pe.cayro.pnpj.v2.model.User;
 import pe.cayro.pnpj.v2.service.SamAlarmReceiver;
@@ -64,12 +63,21 @@ public class WelcomeActivity extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
+                SharedPreferences settings = getSharedPreferences(Constants.PREFERENCES_SAM, 0);
+                String cycleLoaded = settings.getString(Constants.CYCLE_LOADED, "");
+
+                if (cycleLoaded.equals(Constants.YES)) {
+                    Intent intent = new Intent(WelcomeActivity.this, MainActivity.class);
+                    WelcomeActivity.this.startActivity(intent);
+                    finish();
+                } else {
                     progress.setCancelable(false);
                     progress.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-                    progress.setMax(11);
+                    progress.setMax(10);
                     progress.setMessage(Constants.SINCRONIZATION);
                     progress.show();
                     new LoginAsyncTask(getApplicationContext()).execute(Constants.EMPTY);
+                }
 
             }
         }, SPLASH_DURATION);
@@ -124,13 +132,10 @@ public class WelcomeActivity extends AppCompatActivity {
 
             this.publishProgress(Constants.OBTAINING_IMEI);
 
-            //Replace for implement in production enable the following lines of code
-
             Log.i(TAG, telephonyManager.getDeviceId());
 
-            //String imei = telephonyManager.getDeviceId();
-
-            String imei = Constants.IMEI_TEST;
+            String imei = telephonyManager.getDeviceId();
+            //String imei = Constants.IMEI_TEST;
 
             Realm realm = Realm.getDefaultInstance();
 
@@ -138,25 +143,29 @@ public class WelcomeActivity extends AppCompatActivity {
 
                 realm.beginTransaction();
 
-                realm.clear(Specialty.class);
+                realm.clear(User.class);
                 realm.clear(Doctor.class);
-                realm.clear(DoctorType.class);
                 realm.clear(Specialty.class);
-                realm.clear(Patient.class);
-                realm.clear(TypeMovement.class);
-               // realm.clear(Institution.class);
+                realm.clear(InstitutionTypes.class);
+                realm.clear(InstitutionZone.class);
+                realm.clear(Institution.class);
 
                 this.publishProgress(Constants.LOADING_USERS);
                 List<User> users = RestClient.get().getUserByImei(imei);
                 User user = users.get(0);
                 realm.copyToRealmOrUpdate(user);
 
-                /*
                 this.publishProgress(Constants.LOADING_INSTITUTIONS);
-                List<Institution> institutions = RestClient.get().getListInstitutions(imei,
-                        user.getId());
+                List<Institution> institutions = RestClient.get().getListInstitutions(imei);
                 realm.copyToRealmOrUpdate(institutions);
-*/
+
+                this.publishProgress(Constants.LOADING_INSTITUTION_ZONE);
+                List<InstitutionZone> institutionZones = RestClient.get().getListInstitutionZones(imei);
+                realm.copyToRealmOrUpdate(institutionZones);
+
+                this.publishProgress(Constants.LOADING_INSTITUTION_TYPE);
+                List<InstitutionTypes> institutionTypes = RestClient.get().getListInstitutionTypes(imei);
+                realm.copyToRealmOrUpdate(institutionZones);
 
                 this.publishProgress(Constants.LOADING_SPECIALTIES);
                 List<Specialty> specialties = RestClient.get().getListSpecialties(imei);
@@ -165,13 +174,12 @@ public class WelcomeActivity extends AppCompatActivity {
                 this.publishProgress(Constants.LOADING_DOCTORS);
                 List<Doctor> doctors = RestClient.get().getListDoctors(imei);
 
+                this.publishProgress(Constants.LOADING_DOCTORS_CLOSEUP);
+                List<DoctorsCloseUp> doctorsCloseup = RestClient.get().getListDoctorsCloseup(imei);
+
                 this.publishProgress(Constants.LOADING_UBIGEOS);
                 List<Ubigeo> ubigeos = RestClient.get().getUbigeos(imei);
                 realm.copyToRealmOrUpdate(ubigeos);
-
-                this.publishProgress(Constants.LOADING_TYPE_MOVEMENTS);
-                List<TypeMovement> typeMovements = RestClient.get().getTypeMovements(user.getId());
-                realm.copyToRealmOrUpdate(typeMovements);
 
                 List<Doctor> doctorsTemp = new ArrayList<Doctor>();
                 for(Doctor temp : doctors){
@@ -189,15 +197,33 @@ public class WelcomeActivity extends AppCompatActivity {
                     doctorsTemp2.add(temp);
                 }
 
+                List<DoctorsCloseUp> doctorsCloseupTemp = new ArrayList<DoctorsCloseUp>();
+                for(DoctorsCloseUp temp : doctorsCloseup){
+                    Specialty tempEsp = realm.where(Specialty.class).equalTo(Constants.ID,
+                            temp.getSpecialtyId()).findFirst();
+                    temp.setSpecialty(tempEsp);
+                    doctorsCloseupTemp.add(temp);
+                }
+
+                List<Institution> institutionsTemp = new ArrayList<Institution>();
+                for(Institution temp : institutions){
+                    InstitutionZone tempZone = realm.where(InstitutionZone.class).equalTo(Constants.ID, temp.getInstitutionZoneId()).findFirst();
+                            temp.setInstitutionZone(tempZone);
+                    institutionsTemp.add(temp);
+                }
+
+                List<Institution> institutionsTemp2 = new ArrayList<Institution>();
+                for(Institution temp : institutions){
+                    InstitutionTypes tempType = realm.where(InstitutionTypes.class).equalTo(Constants.ID, temp.getInstitutionTypeId()).findFirst();
+                    temp.setInstitutionTypes(tempType);
+                    institutionsTemp2.add(temp);
+                }
+
+                realm.copyToRealmOrUpdate(doctorsTemp);
                 realm.copyToRealmOrUpdate(doctorsTemp2);
-
-                this.publishProgress(Constants.LOADING_PRODUCTS);
-                List<Product> products = RestClient.get().getListProducts(imei);
-                realm.copyToRealmOrUpdate(products);
-
-                this.publishProgress(Constants.LOADING_AGENTS);
-                List<Agent> agents = RestClient.get().getAgents(imei);
-                realm.copyToRealmOrUpdate(agents);
+                realm.copyToRealmOrUpdate(institutionsTemp);
+                realm.copyToRealmOrUpdate(institutionsTemp2);
+                realm.copyToRealmOrUpdate(doctorsCloseupTemp);
 
                 this.publishProgress(Constants.LOADING_PATIENTS);
                 List<Patient> patients = RestClient.get().getPatients(imei, user.getId());
@@ -205,6 +231,9 @@ public class WelcomeActivity extends AppCompatActivity {
 
                 realm.commitTransaction();
 
+                editor.putString(Constants.CYCLE_LOADED, Constants.YES);
+
+                editor.apply();
 
             } finally {
                 if (realm != null) {
@@ -250,7 +279,7 @@ public class WelcomeActivity extends AppCompatActivity {
         PendingIntent sender = PendingIntent.getBroadcast(context,1, i, 0);
 
         long firstTime = SystemClock.elapsedRealtime();
-        firstTime += 3 * 1000;//start 3 seconds after first register.
+        firstTime += 10 * 1000;//start 3 seconds after first register.
         long range = 10 * 60 * 1000;//execute every 10 minutes.
 
         AlarmManager am = (AlarmManager) context

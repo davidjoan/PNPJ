@@ -51,9 +51,9 @@ public class InstitutionAutocompleterAdapter extends ArrayAdapter<Integer> imple
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        viewHolder.name.setText((institution.getName().length() > 30) ?
-                institution.getName().substring(0, 30) + Constants.ELLIPSIS :
-                institution.getName());
+        viewHolder.name.setText((institution.getBusinessname().length() > 30) ?
+                institution.getBusinessname().substring(0, 30) + Constants.ELLIPSIS :
+                institution.getBusinessname());
         return convertView;
     }
 
@@ -63,7 +63,7 @@ public class InstitutionAutocompleterAdapter extends ArrayAdapter<Integer> imple
 
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
-                ArrayList<Integer> data = new ArrayList<Integer>();
+                ArrayList<String> data = new ArrayList<String>();
                 FilterResults filterResults = new FilterResults();
 
                 Realm  realm = Realm.getDefaultInstance();
@@ -72,7 +72,7 @@ public class InstitutionAutocompleterAdapter extends ArrayAdapter<Integer> imple
                         contains(Constants.NAME, constraint.toString()).findAll();
 
                 for(Institution institution : realmResults){
-                    data.add(Integer.valueOf(institution.getId()));
+                    data.add(String.valueOf(institution.getUuid()));
                 }
 
                 filterResults.values = data;

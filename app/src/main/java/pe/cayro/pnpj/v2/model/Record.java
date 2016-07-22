@@ -16,7 +16,7 @@ public class Record extends RealmObject {
     private int userId;
     private String patientUuid;
     private String doctorUuid;
-    private int institutionId;
+    private String institutionId;
     private int agentId;
     private int ubigeoId;
     private int code;
@@ -26,7 +26,7 @@ public class Record extends RealmObject {
     private String ruc;
     private Date saleDate;
     private String serial;
-    private int institutionOriginId;
+    private String institutionOriginId;
     private boolean sent;
     private boolean active;
     private Date createdAt;
@@ -74,11 +74,11 @@ public class Record extends RealmObject {
         this.doctorUuid = doctorUuid;
     }
 
-    public int getInstitutionId() {
+    public String getInstitutionId() {
         return institutionId;
     }
 
-    public void setInstitutionId(int institutionId) {
+    public void setInstitutionId(String institutionId) {
         this.institutionId = institutionId;
     }
 
@@ -194,11 +194,11 @@ public class Record extends RealmObject {
         this.agent = agent;
     }
 
-    public int getInstitutionOriginId() {
+    public String getInstitutionOriginId() {
         return institutionOriginId;
     }
 
-    public void setInstitutionOriginId(int institutionOriginId) {
+    public void setInstitutionOriginId(String institutionOriginId) {
         this.institutionOriginId = institutionOriginId;
     }
 

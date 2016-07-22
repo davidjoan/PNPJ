@@ -50,6 +50,106 @@
                 android:text="@string/institution_address_value"
                 android:layout_toRightOf="@+id/institution_image" />
 
+            <TextView
+                android:id="@+id/institution_office"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/institution_address"
+                android:paddingLeft="5dp"
+                android:textSize="10sp"
+                android:text="@string/institution_address_value"
+                android:layout_toRightOf="@+id/institution_image" />
+
+            <TextView
+                android:id="@+id/institution_code"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/institution_office"
+                android:paddingLeft="5dp"
+                android:textStyle="bold"
+                android:textSize="10sp"
+                android:text="RUC: 10447966838"
+                android:layout_toRightOf="@+id/institution_image"
+                android:layout_alignRight="@+id/institution_office"
+                android:layout_alignEnd="@+id/institution_office" />
+
+            <TextView
+                android:id="@+id/institution_category"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/institution_code"
+                android:paddingLeft="5dp"
+                android:textSize="10sp"
+                android:text="Categoria"
+
+                android:layout_toRightOf="@+id/institution_image"
+                android:layout_alignRight="@+id/institution_code"
+                android:layout_alignEnd="@+id/institution_code" />
+
+
+
+            <TextView
+                android:id="@+id/institution_usuario"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/institution_category"
+                android:paddingLeft="5dp"
+                android:textSize="10sp"
+                android:text="Usuario"
+                android:textStyle="bold"
+                android:layout_toRightOf="@+id/institution_image"
+                android:layout_alignRight="@+id/institution_category"
+                android:layout_alignEnd="@+id/institution_category" />
+
+            <TextView
+                android:id="@+id/institution_comment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/institution_usuario"
+                android:paddingLeft="5dp"
+                android:textSize="10sp"
+                android:text="Comentario"
+                android:textColor="@android:color/holo_red_dark"
+                android:layout_toRightOf="@+id/institution_image"
+                android:layout_alignRight="@+id/institution_usuario"
+                android:layout_alignEnd="@+id/institution_usuario" />
+
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/institution_status"
+                android:src="@drawable/sync_on"
+                android:paddingRight="5dp"
+                android:paddingTop="5dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/institution_check"
+                android:src="@drawable/vp0"
+                android:paddingRight="5dp"
+                android:paddingTop="5dp"
+                android:layout_alignParentTop="false"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/institution_edit"
+                android:src="@android:drawable/ic_menu_edit"
+                android:paddingRight="5dp"
+                android:paddingTop="5dp"
+                android:layout_alignParentBottom="true"
+                android:layout_toLeftOf="@+id/institution_check"
+                android:layout_toStartOf="@+id/institution_check" />
+
+
 
         </RelativeLayout>
 

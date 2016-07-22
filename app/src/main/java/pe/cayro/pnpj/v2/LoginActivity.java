@@ -118,7 +118,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     tracking.setCode(Integer.valueOf(attentionCodeEditText.
                             getText().toString()).intValue());
                     tracking.setType(Constants.LOGIN);
-                    tracking.setInstitutionId(institution.getId());
+                    tracking.setInstitutionId(institution.getUuid());
                     tracking.setCreatedAt(new Date());
                     tracking.setUserId(user.getId());
                     tracking.setInstitution(institution);
@@ -142,7 +142,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     Intent intent = new Intent(LoginActivity.this, InstitutionActivity.class);
                     intent.putExtra(Constants.TRACKING_CODE, tracking.getCode());
                     intent.putExtra(Constants.INSTITUTION_NAME, institutionName);
-                    intent.putExtra(Constants.INSTITUTION_ID, institution.getId());
+                    intent.putExtra(Constants.INSTITUTION_ID, institution.getUuid());
                     intent.putExtra(Constants.UUID, tracking.getUuid());
                     LoginActivity.this.startActivity(intent);
                     finish();

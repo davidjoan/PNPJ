@@ -8,7 +8,10 @@ import pe.cayro.pnpj.v2.model.Agent;
 import pe.cayro.pnpj.v2.model.AttentionType;
 import pe.cayro.pnpj.v2.model.Doctor;
 import pe.cayro.pnpj.v2.model.DoctorType;
+import pe.cayro.pnpj.v2.model.DoctorsCloseUp;
 import pe.cayro.pnpj.v2.model.Institution;
+import pe.cayro.pnpj.v2.model.InstitutionTypes;
+import pe.cayro.pnpj.v2.model.InstitutionZone;
 import pe.cayro.pnpj.v2.model.Patient;
 import pe.cayro.pnpj.v2.model.Product;
 import pe.cayro.pnpj.v2.model.Result;
@@ -33,8 +36,15 @@ import retrofit.http.Query;
 public interface Api {
 
     @GET(Constants.API_INSTITUTION)
-    List<Institution> getListInstitutions(@Query(Constants.ID_KEY) String imei,
-                                          @Query(Constants.ID_USUARIO) int idUsuario);
+    List<Institution> getListInstitutions(@Query(Constants.ID_KEY) String imei);
+
+    @GET(Constants.API_INSTITUTION_ZONE)
+    List<InstitutionZone> getListInstitutionZones(@Query(Constants.ID_KEY) String imei);
+
+
+    @GET(Constants.API_INSTITUTION_TYPE)
+    List<InstitutionTypes> getListInstitutionTypes(@Query(Constants.ID_KEY) String imei);
+
 
     @GET(Constants.API_PRODUCT)
     List<Product> getListProducts(@Query(Constants.ID_KEY) String imei);
@@ -44,6 +54,10 @@ public interface Api {
 
     @GET(Constants.API_DOCTOR)
     List<Doctor> getListDoctors(@Query(Constants.ID_KEY) String imei);
+
+    @GET(Constants.API_DOCTOR_CLOSEUP)
+    List<DoctorsCloseUp> getListDoctorsCloseup(@Query(Constants.ID_KEY) String imei);
+
 
     @GET(Constants.API_DOCTOR_TYPE)
     List<DoctorType> getListDoctorType(@Query(Constants.ID_KEY) String imei);
@@ -71,8 +85,11 @@ public interface Api {
     @POST("/patients")
     void createPatient(@Body JsonObject patient, Callback<Result> result);
 
-    @POST("/doctors")
+    @POST("/Doctors")
     void createDoctor(@Body JsonObject doctor, Callback<Result> result);
+
+    @POST("/Institution")
+    void createInstitution(@Body JsonObject institution, Callback<Result> result);
 
     @POST("/records")
     void createRecord(@Body JsonObject record, Callback<Result> result);

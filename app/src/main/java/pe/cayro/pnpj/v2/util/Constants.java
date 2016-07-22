@@ -19,13 +19,15 @@ public class Constants {
     public static final String API_DOCTOR = "/Doctors";
     public static final String API_PRODUCT = "/products";
     public static final String API_SPECIALTY = "/Specialties";
-    public static final String API_INSTITUTION = "/institutions";
+    public static final String API_INSTITUTION = "/Institution";
+    public static final String API_INSTITUTION_ZONE = "/InstitutionZone";
+    public static final String API_INSTITUTION_TYPE = "/InstitutionTypes";
     public static final String API_DOCTOR_TYPE = "/DoctorsTypes";
     public static final String API_ATTENTION_TYPE = "/attentionTypes";
-
-
+    public static final String API_DOCTOR_CLOSEUP = "/DoctorsCloseUp";
 
     public static final String CMP_FIELD = "cmp: ";
+    public static final String RUC_FIELD = "RUC: ";
     public static final String DNI_FIELD = "Dni: ";
     public static final String CODE_FIELD = "Cod: ";
     public static final String QTY_FIELD = "Cantidad: ";
@@ -57,7 +59,7 @@ public class Constants {
     public static final String SPECIALTY_ID = "specialty_id";
     public static final String TRACKING_UUID = "tracking_uuid";
     public static final String TRACKING_CODE = "tracking_code";
-    public static final String IMEI_TEST = "000000000000000";
+    public static final String IMEI_TEST = "000000000000001";
     public static final String INSTITUTION_NAME = "institution_name";
 
     public static final String ELLIPSIS = "...";
@@ -91,7 +93,7 @@ public class Constants {
     public static final String LOADING_SPECIALTIES = "Cargando Especialidades";
     public static final String LOADING_INSTITUTIONS = "Cargando Instituciones";
     public static final String LOADING_PATIENTS = "Cargando Pacientes";
-
+    public static final String LOADING_DOCTORS_CLOSEUP = "Cargando Médicos Closeup";
     public static final String LOADING_ATTENTION_TYPES = "Cargando Tipo Atenciones";
 
 
@@ -145,5 +147,12 @@ public class Constants {
     public static final String IN = "I";  //ingreso
     public static final String TYPE = "type";
     public static final String DOCTOR_TYPE_ID = "type";
+
+    public static final String INSTITUTION_TYPE = "type";
+    public static final String INSTITUTION_ZONE = "zone";
+    public static final String LOADING_INSTITUTION_ZONE = "Cargando Zonas";
+    public static final String LOADING_INSTITUTION_TYPE = "Cargando Tipos";
+    public static final String SPECIALTY = "specialty";
+
 
 }

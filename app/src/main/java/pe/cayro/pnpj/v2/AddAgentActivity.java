@@ -76,7 +76,7 @@ public class AddAgentActivity extends AppCompatActivity {
                 Integer temp = adapterInstitution.getItem(position);
                 institution = realm.where(Institution.class).equalTo(Constants.ID,
                         temp.intValue()).findFirst();
-                agentInstitution.setText(institution.getName());
+                agentInstitution.setText(institution.getBusinessname());
             }
         });
 
@@ -90,7 +90,7 @@ public class AddAgentActivity extends AppCompatActivity {
                     .equalTo(Constants.ID, settings.getInt(Constants.DEFAULT_INSTITUTION_ID, 0))
                     .findFirst();
 
-            agentInstitution.setText(institution.getName());
+            agentInstitution.setText(institution.getBusinessname());
         }
 
         agentAdd.setOnClickListener(new View.OnClickListener() {
@@ -123,7 +123,7 @@ public class AddAgentActivity extends AppCompatActivity {
                     SharedPreferences.Editor editor = settings.edit();
 
                     editor.putInt(Constants.DEFAULT_AGENT_ID, agent.getId());
-                    editor.putInt(Constants.DEFAULT_INSTITUTION_ID, institution.getId());
+                    editor.putString(Constants.DEFAULT_INSTITUTION_ID, institution.getUuid());
 
                     editor.commit();
 

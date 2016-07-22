@@ -14,16 +14,10 @@ import pe.cayro.pnpj.v2.R;
 import pe.cayro.pnpj.v2.WelcomeActivity;
 import pe.cayro.pnpj.v2.api.RestClient;
 import pe.cayro.pnpj.v2.model.Doctor;
-import pe.cayro.pnpj.v2.model.Patient;
-import pe.cayro.pnpj.v2.model.Record;
+import pe.cayro.pnpj.v2.model.Institution;
 import pe.cayro.pnpj.v2.model.Result;
-import pe.cayro.pnpj.v2.model.SpecialMove;
-import pe.cayro.pnpj.v2.model.Tracking;
 import pe.cayro.pnpj.v2.serializer.DoctorSerializer;
-import pe.cayro.pnpj.v2.serializer.PatientSerializer;
-import pe.cayro.pnpj.v2.serializer.RecordSerializer;
-import pe.cayro.pnpj.v2.serializer.SpecialMoveSerializer;
-import pe.cayro.pnpj.v2.serializer.TrackingSerializer;
+import pe.cayro.pnpj.v2.serializer.InstitutionSerializer;
 import pe.cayro.pnpj.v2.util.Constants;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -37,8 +31,6 @@ public class SamSyncService extends IntentService {
 
     private NotificationManager mNotificationManager;
 
-
-
     public SamSyncService() {
         super("SamSyncService");
     }
@@ -51,16 +43,17 @@ public class SamSyncService extends IntentService {
 
         sendNotification("Iniciando Sincronización");
 
-        PatientSerializer serializerPatient         = new PatientSerializer();
-        DoctorSerializer serializerDoctor           = new DoctorSerializer();
-        TrackingSerializer serializerTracking       = new TrackingSerializer();
-        RecordSerializer serializerRecord           = new RecordSerializer();
-        SpecialMoveSerializer serializerSpecialMove = new SpecialMoveSerializer();
+     //   PatientSerializer serializerPatient         = new PatientSerializer();
+        DoctorSerializer serializerDoctor             = new DoctorSerializer();
+        InstitutionSerializer serializerInstitution   = new InstitutionSerializer();
+     //   TrackingSerializer serializerTracking       = new TrackingSerializer();
+      //  RecordSerializer serializerRecord           = new RecordSerializer();
+      //  SpecialMoveSerializer serializerSpecialMove = new SpecialMoveSerializer();
 
 
         Realm realmMain = Realm.getDefaultInstance();
 
-        RealmResults<Patient> pendingPatients = realmMain.where(Patient.class).
+      /*  RealmResults<Patient> pendingPatients = realmMain.where(Patient.class).
                         equalTo(Constants.SENT, Boolean.FALSE).findAll();
 
         for (Patient patient: pendingPatients) {
@@ -95,7 +88,44 @@ public class SamSyncService extends IntentService {
                         }
                     });
 
+        }*/
+
+        RealmResults<Institution> pendingInstitutions = realmMain.where(Institution.class).
+                equalTo(Constants.SENT, Boolean.FALSE).findAll();
+
+        for(Institution institution : pendingInstitutions){
+            RestClient.get().createInstitution(serializerInstitution.serialize(institution, null,null), new Callback<Result>(){
+
+                @Override
+                public void success(Result result, Response response) {
+
+                    Log.i(TAG, "Institution");
+                    Log.i(TAG, result.getUuid());
+                    Log.i(TAG, result.getIdResult());
+
+                    if(Constants.ONE.equals(result.getIdResult())){
+
+                        Log.i(TAG, "Institution Updated");
+                        Realm realm = Realm.getDefaultInstance();
+                        realm.beginTransaction();
+                        Institution temp = realm.where(Institution.class).equalTo("uuid",
+                                result.getUuid()).findFirst();
+                        temp.setSent(Boolean.TRUE);
+                        realm.copyToRealmOrUpdate(temp);
+                        realm.commitTransaction();
+                        realm.close();
+                    }
+
+                }
+
+                @Override
+                public void failure(RetrofitError error) {
+                    Log.e(TAG, error.getMessage());
+                }
+            });
+
         }
+
 
         RealmResults<Doctor> pendingDoctors = realmMain.where(Doctor.class).
                         equalTo(Constants.SENT, Boolean.FALSE).findAll();
@@ -132,118 +162,6 @@ public class SamSyncService extends IntentService {
                         }
                     });
         }
-
-        RealmResults<Tracking> pendingTrackings = realmMain.where(Tracking.class).
-                        equalTo(Constants.SENT, Boolean.FALSE).findAll();
-
-        for (Tracking tracking: pendingTrackings) {
-
-                    RestClient.get().createTracking(serializerTracking.
-                            serialize(tracking, null, null), new Callback<Result>() {
-                        @Override
-                        public void success(Result result, Response response) {
-
-                            Log.i(TAG, "Tracking");
-                            Log.i(TAG, result.getUuid());
-                            Log.i(TAG, result.getIdResult());
-
-                            if(Constants.ONE.equals(result.getIdResult())){
-                                Log.i(TAG, "Tracking Updated");
-                                Realm realm = Realm.getDefaultInstance();
-                                realm.beginTransaction();
-                                Tracking temp = realm.where(Tracking.class).equalTo("uuid",
-                                        result.getUuid()).findFirst();
-                                temp.setSent(Boolean.TRUE);
-                                realm.copyToRealmOrUpdate(temp);
-                                realm.commitTransaction();
-                                realm.close();
-                            }
-                        }
-
-                        @Override
-                        public void failure(RetrofitError error) {
-
-                            Log.e(TAG, error.getMessage());
-
-                        }
-                    });
-
-        }
-
-        RealmResults<Record> pendingRecords = realmMain.where(Record.class).
-                        equalTo(Constants.SENT, Boolean.FALSE).findAll();
-        for (Record record: pendingRecords) {
-
-                    RestClient.get().createRecord(serializerRecord.
-                            serialize(record, null, null), new Callback<Result>() {
-                        @Override
-                        public void success(Result result, Response response) {
-
-                            Log.i(TAG, "Record");
-                            Log.i(TAG, result.getUuid());
-                            Log.i(TAG, result.getIdResult());
-
-                            if(Constants.ONE.equals(result.getIdResult())){
-                                Log.i(TAG, "Record Updated");
-                                Realm realm = Realm.getDefaultInstance();
-                                realm.beginTransaction();
-                                Record temp = realm.where(Record.class).equalTo("uuid",
-                                        result.getUuid()).findFirst();
-                                temp.setSent(Boolean.TRUE);
-                                realm.copyToRealmOrUpdate(temp);
-                                realm.commitTransaction();
-                                realm.close();
-                            }
-                        }
-
-                        @Override
-                        public void failure(RetrofitError error) {
-
-                            Log.e(TAG, error.getMessage());
-
-                        }
-                    });
-        }
-
-
-        RealmResults<SpecialMove> pendingSpecialMoves = realmMain.where(SpecialMove.class).
-                equalTo(Constants.SENT, Boolean.FALSE).findAll();
-
-        for (SpecialMove specialMove: pendingSpecialMoves) {
-
-            RestClient.get().createSpecialMove(serializerSpecialMove.
-                    serialize(specialMove, null, null), new Callback<Result>() {
-                @Override
-                public void success(Result result, Response response) {
-
-                    Log.i(TAG, "Record");
-                    Log.i(TAG, result.getUuid());
-                    Log.i(TAG, result.getIdResult());
-
-                    if(Constants.ONE.equals(result.getIdResult())){
-                        Log.i(TAG, "Record Updated");
-                        Realm realm = Realm.getDefaultInstance();
-                        realm.beginTransaction();
-                        SpecialMove temp = realm.where(SpecialMove.class).equalTo("uuid",
-                                result.getUuid()).findFirst();
-                        temp.setSent(Boolean.TRUE);
-                        realm.copyToRealmOrUpdate(temp);
-                        realm.commitTransaction();
-                        realm.close();
-                    }
-                }
-
-                @Override
-                public void failure(RetrofitError error) {
-
-                    Log.e(TAG, error.getMessage());
-
-                }
-            });
-        }
-
-
-
 
         Log.i(TAG, "Finalizando Sincronización");
 

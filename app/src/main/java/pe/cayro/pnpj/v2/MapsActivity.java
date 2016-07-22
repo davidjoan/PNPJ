@@ -4,13 +4,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.CameraPosition;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -56,13 +52,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         RealmResults<Institution> institutionList = realm.where(Institution.class).findAll();
         institutionList.sort(Constants.LATITUDE, Sort.DESCENDING);
 
-        for (Institution institution: institutionList) {
-            LatLng sydney = new LatLng(institution.getLatitude(), institution.getLongitude());
-            mMap.addMarker(new MarkerOptions().position(sydney).title(institution.getName()));
-            CameraPosition cameraPosition = new CameraPosition.Builder()
-                        .target(sydney).zoom(12).build();
-                mMap.animateCamera(CameraUpdateFactory
-                        .newCameraPosition(cameraPosition));
-        }
+
     }
 }
