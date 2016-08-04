@@ -1,6 +1,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools" tools:context="pe.cayro.pnpj.v2.NewInstitutionActivity">
+    xmlns:tools="http://schemas.android.com/tools" tools:context=".NewRecordPharmacyActivity">
     <item
         android:id="@+id/action_search"
         android:icon="@android:drawable/ic_menu_search"
@@ -11,4 +11,24 @@
     <item android:id="@+id/action_new_institution" android:title="@string/new_institution"
         android:icon="@drawable/fa_add"
         android:orderInCategory="100" app:showAsAction="always" />
+
+    <group android:checkableBehavior="single">
+        <item android:id="@+id/action_all"
+            android:title="Todos"
+            android:checked="true"
+            android:orderInCategory="100"
+            app:showAsAction="ifRoom"/>
+        <item android:id="@+id/action_pending"
+            android:title="Pendientes"
+            android:orderInCategory="100"
+            app:showAsAction="ifRoom"/>
+        <item android:id="@+id/action_aproved"
+            android:title="Aprobados"
+            android:orderInCategory="100"
+            app:showAsAction="ifRoom" />
+        <item android:id="@+id/action_upaproved"
+            android:title="Desaprobados"
+            android:orderInCategory="100"
+            app:showAsAction="ifRoom"/>
+    </group>
 </menu>

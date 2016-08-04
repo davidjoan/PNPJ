@@ -41,7 +41,7 @@ import pe.cayro.pnpj.v2.model.Tracking;
 import pe.cayro.pnpj.v2.model.User;
 import pe.cayro.pnpj.v2.service.SamAlarmReceiver;
 import pe.cayro.pnpj.v2.ui.FragmentDoctor;
-import pe.cayro.pnpj.v2.ui.FragmentInstitution;
+import pe.cayro.pnpj.v2.ui.FragmentRecordPharmacy;
 import pe.cayro.pnpj.v2.util.Constants;
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
@@ -115,27 +115,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         userRole = (TextView) header.findViewById(R.id.NavUserRole);
         userRole.setText(user.getRol());
 
-        SharedPreferences settings = getSharedPreferences(Constants.PREFERENCES_SAM, 0);
-        String session = settings.getString(Constants.SESSION, Constants.EMPTY);
-
-        if(session.equals(Constants.YES)){
-
-            Tracking tempTracking = Realm.getDefaultInstance().
-                    where(Tracking.class).
-                    equalTo(Constants.UUID,
-                            settings.getString(Constants.SESSION_TRACKING, "")).
-                    findFirst();
-
-            Intent intent = new Intent(MainActivity.this, InstitutionActivity.class);
-            intent.putExtra(Constants.TRACKING_CODE, tempTracking.getCode());
-            intent.putExtra(Constants.INSTITUTION_NAME, tempTracking.getInstitution().getBusinessname());
-            intent.putExtra(Constants.INSTITUTION_ID, tempTracking.getInstitutionId());
-            intent.putExtra(Constants.UUID, tempTracking.getUuid());
-            MainActivity.this.startActivity(intent);
-        }
-
-
-
     }
 
     private ActionBarDrawerToggle setupDrawerToggle() {
@@ -178,7 +157,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                     fragment = FragmentDoctor.newInstance();
                     break;
                 case R.id.nav_second_fragment:
-                    fragment = FragmentInstitution.newInstance();
+                    fragment = FragmentRecordPharmacy.newInstance();
                     break;
                 case R.id.nav_five_fragment:
                     fragment = FragmentDoctor.newInstance();

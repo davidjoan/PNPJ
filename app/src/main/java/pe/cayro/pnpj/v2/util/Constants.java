@@ -15,7 +15,7 @@ public class Constants {
 
     public static final String API_AGENT = "/agents";
     public static final String API_PATIENT = "/patients";
-    public static final String API_UBIGEO = "/ubigeos";
+    public static final String API_UBIGEO = "/Ubigeo";
     public static final String API_DOCTOR = "/Doctors";
     public static final String API_PRODUCT = "/products";
     public static final String API_SPECIALTY = "/Specialties";
@@ -25,6 +25,9 @@ public class Constants {
     public static final String API_DOCTOR_TYPE = "/DoctorsTypes";
     public static final String API_ATTENTION_TYPE = "/attentionTypes";
     public static final String API_DOCTOR_CLOSEUP = "/DoctorsCloseUp";
+    public static final String API_PHARMACY_ADDRESS = "/PharmacyAddress";
+    public static final String API_PHARMACY = "/Pharmacy";
+    public static final String API_RECORD_PHARMACY = "/RecordPharmacy";
 
     public static final String CMP_FIELD = "cmp: ";
     public static final String RUC_FIELD = "RUC: ";
@@ -59,7 +62,7 @@ public class Constants {
     public static final String SPECIALTY_ID = "specialty_id";
     public static final String TRACKING_UUID = "tracking_uuid";
     public static final String TRACKING_CODE = "tracking_code";
-    public static final String IMEI_TEST = "000000000000001";
+    public static final String IMEI_TEST = "000000000000000";
     public static final String INSTITUTION_NAME = "institution_name";
 
     public static final String ELLIPSIS = "...";
@@ -95,7 +98,10 @@ public class Constants {
     public static final String LOADING_PATIENTS = "Cargando Pacientes";
     public static final String LOADING_DOCTORS_CLOSEUP = "Cargando Médicos Closeup";
     public static final String LOADING_ATTENTION_TYPES = "Cargando Tipo Atenciones";
+    public static final String LOADING_PHARMACY_ADDRESS = "Cargando Dirección de Farmacias";
+    public static final String LOADING_RECORD_PHARMACY = "Cargando Registros de Farmacias";
 
+    public static final String LOADING_PHARMACYS = "Cargando Farmacias";
 
     public static final String LOGOUT_2 = "Desea Cerrar Sesión en ";
     public static final String LOGOUT_3 = "Desea cerrar el registro";
@@ -153,6 +159,4 @@ public class Constants {
     public static final String LOADING_INSTITUTION_ZONE = "Cargando Zonas";
     public static final String LOADING_INSTITUTION_TYPE = "Cargando Tipos";
     public static final String SPECIALTY = "specialty";
-
-
 }

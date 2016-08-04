@@ -29,7 +29,9 @@ import pe.cayro.pnpj.v2.model.DoctorsCloseUp;
 import pe.cayro.pnpj.v2.model.Institution;
 import pe.cayro.pnpj.v2.model.InstitutionTypes;
 import pe.cayro.pnpj.v2.model.InstitutionZone;
-import pe.cayro.pnpj.v2.model.Patient;
+import pe.cayro.pnpj.v2.model.Pharmacy;
+import pe.cayro.pnpj.v2.model.PharmacyAddress;
+import pe.cayro.pnpj.v2.model.RecordPharmacy;
 import pe.cayro.pnpj.v2.model.Specialty;
 import pe.cayro.pnpj.v2.model.Ubigeo;
 import pe.cayro.pnpj.v2.model.User;
@@ -149,23 +151,27 @@ public class WelcomeActivity extends AppCompatActivity {
                 realm.clear(InstitutionTypes.class);
                 realm.clear(InstitutionZone.class);
                 realm.clear(Institution.class);
+                realm.clear(Ubigeo.class);
+                realm.clear(Pharmacy.class);
+                realm.clear(PharmacyAddress.class);
+                realm.clear(RecordPharmacy.class);
 
                 this.publishProgress(Constants.LOADING_USERS);
                 List<User> users = RestClient.get().getUserByImei(imei);
                 User user = users.get(0);
                 realm.copyToRealmOrUpdate(user);
 
-                this.publishProgress(Constants.LOADING_INSTITUTIONS);
-                List<Institution> institutions = RestClient.get().getListInstitutions(imei);
-                realm.copyToRealmOrUpdate(institutions);
+                this.publishProgress(Constants.LOADING_PHARMACYS);
+                List<Pharmacy> pharmacies = RestClient.get().getListPharmacy(imei);
+                realm.copyToRealmOrUpdate(pharmacies);
 
-                this.publishProgress(Constants.LOADING_INSTITUTION_ZONE);
-                List<InstitutionZone> institutionZones = RestClient.get().getListInstitutionZones(imei);
-                realm.copyToRealmOrUpdate(institutionZones);
+                this.publishProgress(Constants.LOADING_PHARMACY_ADDRESS);
+                List<PharmacyAddress> pharmacyAddress = RestClient.get().getListPharmacyAddress(imei);
+                realm.copyToRealmOrUpdate(pharmacyAddress);
 
-                this.publishProgress(Constants.LOADING_INSTITUTION_TYPE);
-                List<InstitutionTypes> institutionTypes = RestClient.get().getListInstitutionTypes(imei);
-                realm.copyToRealmOrUpdate(institutionZones);
+                this.publishProgress(Constants.LOADING_RECORD_PHARMACY);
+                List<RecordPharmacy> recordPharmacy = RestClient.get().getListRecordPharmacy(imei);
+                realm.copyToRealmOrUpdate(recordPharmacy);
 
                 this.publishProgress(Constants.LOADING_SPECIALTIES);
                 List<Specialty> specialties = RestClient.get().getListSpecialties(imei);
@@ -205,29 +211,9 @@ public class WelcomeActivity extends AppCompatActivity {
                     doctorsCloseupTemp.add(temp);
                 }
 
-                List<Institution> institutionsTemp = new ArrayList<Institution>();
-                for(Institution temp : institutions){
-                    InstitutionZone tempZone = realm.where(InstitutionZone.class).equalTo(Constants.ID, temp.getInstitutionZoneId()).findFirst();
-                            temp.setInstitutionZone(tempZone);
-                    institutionsTemp.add(temp);
-                }
-
-                List<Institution> institutionsTemp2 = new ArrayList<Institution>();
-                for(Institution temp : institutions){
-                    InstitutionTypes tempType = realm.where(InstitutionTypes.class).equalTo(Constants.ID, temp.getInstitutionTypeId()).findFirst();
-                    temp.setInstitutionTypes(tempType);
-                    institutionsTemp2.add(temp);
-                }
-
                 realm.copyToRealmOrUpdate(doctorsTemp);
                 realm.copyToRealmOrUpdate(doctorsTemp2);
-                realm.copyToRealmOrUpdate(institutionsTemp);
-                realm.copyToRealmOrUpdate(institutionsTemp2);
                 realm.copyToRealmOrUpdate(doctorsCloseupTemp);
-
-                this.publishProgress(Constants.LOADING_PATIENTS);
-                List<Patient> patients = RestClient.get().getPatients(imei, user.getId());
-                realm.copyToRealmOrUpdate(patients);
 
                 realm.commitTransaction();
 

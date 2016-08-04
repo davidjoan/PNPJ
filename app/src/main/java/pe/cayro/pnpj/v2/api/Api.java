@@ -13,16 +13,15 @@ import pe.cayro.pnpj.v2.model.Institution;
 import pe.cayro.pnpj.v2.model.InstitutionTypes;
 import pe.cayro.pnpj.v2.model.InstitutionZone;
 import pe.cayro.pnpj.v2.model.Patient;
+import pe.cayro.pnpj.v2.model.Pharmacy;
+import pe.cayro.pnpj.v2.model.PharmacyAddress;
 import pe.cayro.pnpj.v2.model.Product;
+import pe.cayro.pnpj.v2.model.RecordPharmacy;
 import pe.cayro.pnpj.v2.model.Result;
 import pe.cayro.pnpj.v2.model.Specialty;
 import pe.cayro.pnpj.v2.model.TypeMovement;
 import pe.cayro.pnpj.v2.model.Ubigeo;
 import pe.cayro.pnpj.v2.model.User;
-import pe.cayro.pnpj.v2.model.report.InstitutionShare;
-import pe.cayro.pnpj.v2.model.report.MedicalSampleShare;
-import pe.cayro.pnpj.v2.model.report.Stock;
-import pe.cayro.pnpj.v2.model.report.UsersDependent;
 import pe.cayro.pnpj.v2.util.Constants;
 import retrofit.Callback;
 import retrofit.http.Body;
@@ -54,6 +53,16 @@ public interface Api {
 
     @GET(Constants.API_DOCTOR)
     List<Doctor> getListDoctors(@Query(Constants.ID_KEY) String imei);
+
+    @GET(Constants.API_PHARMACY)
+    List<Pharmacy> getListPharmacy(@Query(Constants.ID_KEY) String imei);
+
+    @GET(Constants.API_PHARMACY_ADDRESS)
+    List<PharmacyAddress> getListPharmacyAddress(@Query(Constants.ID_KEY) String imei);
+
+    @GET(Constants.API_RECORD_PHARMACY)
+    List<RecordPharmacy> getListRecordPharmacy(@Query(Constants.ID_KEY) String imei);
+
 
     @GET(Constants.API_DOCTOR_CLOSEUP)
     List<DoctorsCloseUp> getListDoctorsCloseup(@Query(Constants.ID_KEY) String imei);
@@ -88,35 +97,8 @@ public interface Api {
     @POST("/Doctors")
     void createDoctor(@Body JsonObject doctor, Callback<Result> result);
 
-    @POST("/Institution")
-    void createInstitution(@Body JsonObject institution, Callback<Result> result);
+    @POST("/RecordPharmacy")
+    void createRecordPharmacy(@Body JsonObject recordPharmacy, Callback<Result> result);
 
-    @POST("/records")
-    void createRecord(@Body JsonObject record, Callback<Result> result);
 
-    @POST("/SpecialMoves")
-    void createSpecialMove(@Body JsonObject specialMove, Callback<Result> result);
-
-    @POST("/tracking")
-    void createTracking(@Body JsonObject tracking, Callback<Result> result);
-
-    @GET("/institutionsShare")
-    void getShareInstitution(
-            @Query(Constants.ID_USUARIO) int idUser, Callback<List<InstitutionShare>> result);
-
-    @GET("/medicalSampleShare")
-    void getShareMedicalSample(
-            @Query(Constants.ID_USUARIO) int idUser,
-            @Query(Constants.ID_INSTITUTION) int idInstitution,
-            Callback<List<MedicalSampleShare>> result);
-
-    @GET("/UsersDependent")
-    void getUserDependent(
-            @Query(Constants.ID_USUARIO) int idUser,
-            Callback<List<UsersDependent>> result);
-
-    @GET("/Stock")
-    void getStockDependent(
-            @Query(Constants.ID_USUARIO) int idUser,
-            Callback<List<Stock>> result);
 }

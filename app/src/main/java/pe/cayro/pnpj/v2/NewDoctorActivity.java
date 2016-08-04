@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -189,7 +190,6 @@ public class NewDoctorActivity extends AppCompatActivity {
 
         if(uuid != null){
 
-
             doctor = realm.where(Doctor.class).equalTo(Constants.UUID, uuid).findFirst();
 
             toolbar.setTitle(R.string.edit_doctor);
@@ -217,11 +217,8 @@ public class NewDoctorActivity extends AppCompatActivity {
 
             if(user.getRol().equals("SUP"))
             {
-                    recordCancel.setText("Desaprobar");
-
-                    doctorSave.setText("Aprobar");
-
-
+                recordCancel.setText("Desaprobar");
+                doctorSave.setText("Aprobar");
             }
 
             doctorFirstname.requestFocus();
@@ -417,6 +414,23 @@ public class NewDoctorActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_pending:
+                item.setChecked(item.isChecked()?false:true);
+                return true;
+            case R.id.action_aproved:
+                item.setChecked(item.isChecked()?false:true);
+                return true;
+            case R.id.action_upaproved:
+                item.setChecked(item.isChecked()?false:true);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     public void clearDoctor(View v) {

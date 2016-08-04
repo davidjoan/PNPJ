@@ -33,7 +33,7 @@ import butterknife.ButterKnife;
 import io.realm.Realm;
 import io.realm.RealmResults;
 import io.realm.Sort;
-import pe.cayro.pnpj.v2.NewInstitutionActivity;
+import pe.cayro.pnpj.v2.NewRecordPharmacyActivity;
 import pe.cayro.pnpj.v2.R;
 import pe.cayro.pnpj.v2.model.Institution;
 import pe.cayro.pnpj.v2.model.User;
@@ -219,7 +219,7 @@ public class FragmentInstitution extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.action_new_institution:
-                Intent intent = new Intent(getActivity(), NewInstitutionActivity.class);
+                Intent intent = new Intent(getActivity(), NewRecordPharmacyActivity.class);
 
                 startActivityForResult(intent, ADD_INSTITUTION_REQUEST);
                 break;
@@ -337,7 +337,7 @@ public class FragmentInstitution extends Fragment {
                 if(user.getRol().equals("REG")) {
 
                     if (!active) {
-                        Intent intent = new Intent(getActivity(), NewInstitutionActivity.class);
+                        Intent intent = new Intent(getActivity(), NewRecordPharmacyActivity.class);
                         intent.putExtra(Constants.UUID, uuid);
                         startActivityForResult(intent, ADD_INSTITUTION_REQUEST);
                     } else {
@@ -347,7 +347,7 @@ public class FragmentInstitution extends Fragment {
 
                 }else{
 
-                    Intent intent = new Intent(getActivity(), NewInstitutionActivity.class);
+                    Intent intent = new Intent(getActivity(), NewRecordPharmacyActivity.class);
                     intent.putExtra(Constants.UUID, uuid);
                     startActivityForResult(intent, ADD_INSTITUTION_REQUEST);
                 }

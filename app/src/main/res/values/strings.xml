@@ -36,13 +36,13 @@
     </string-array>
 
     <string-array name="doctor_type_array">
-        <item>MÉDICOS</item>
-        <item>OBSTETRAS</item>
-        <item>ODONTOLOGOS</item>
-        <item>TÈCNICO EN ENFERMERIA</item>
-        <item>ENFERMEROS</item>
-        <item>NO IDENTIFICADO</item>
-    </string-array>
+    <item>MÉDICOS</item>
+    <item>OBSTETRAS</item>
+    <item>ODONTOLOGOS</item>
+    <item>TÈCNICO EN ENFERMERIA</item>
+    <item>ENFERMEROS</item>
+    <item>NO IDENTIFICADO</item>
+</string-array>
 
     <string-array name="doctor_zone_array">
         <item>SEDE</item>
@@ -56,6 +56,14 @@
         <item>POLICLINICO</item>
         <item>SISOL</item>
         <item>CONSULTORIO</item>
+    </string-array>
+
+    <string-array name="address_type_array">
+        <item>Av.</item>
+        <item>Calle</item>
+        <item>Jr.</item>
+        <item>Psj.</item>
+        <item>Otro</item>
     </string-array>
 
     <string name="title_activity_new_patient">Nuevo Paciente</string>
@@ -161,4 +169,8 @@
     <string name="phone">Teléfono</string>
     <string name="title_activity_new_institution">Nueva Institución</string>
     <string name="doctor_code">Colegiatura</string>
+    <string name="pharmacy">Farmacias</string>
+    <string name="record_pharmacy_name_value">Farmacia X</string>
+    <string name="record_pharmacy_address_value">Direccion Farmacia X</string>
+    <string name="zone">Zona</string>
 </resources>

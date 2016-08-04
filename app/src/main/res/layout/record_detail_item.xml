@@ -35,8 +35,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/record_detail_name"
                 android:paddingLeft="5dp"
-                android:textSize="10sp" />
-
+                android:textSize="12sp" />
 
         </RelativeLayout>
 

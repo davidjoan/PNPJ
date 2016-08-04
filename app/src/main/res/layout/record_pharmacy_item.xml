@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="0dp"
+        card_view:cardCornerRadius="4dp"
+        card_view:cardUseCompatPadding="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/record_pharmacy_image"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:alpha=".70"
+                android:src="@drawable/fa_hospital_o"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true" />
+
+            <TextView
+                android:id="@+id/record_pharmacy_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:paddingLeft="5dp"
+                android:paddingTop="5dp"
+                android:textStyle="bold"
+                android:textSize="15sp"
+                android:text="@string/record_pharmacy_name_value"
+                android:layout_toRightOf="@+id/record_pharmacy_image" />
+
+            <TextView
+                android:id="@+id/record_pharmacy_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/record_pharmacy_name"
+                android:paddingLeft="5dp"
+                android:textSize="10sp"
+                android:text="@string/record_pharmacy_address_value"
+                android:layout_toRightOf="@+id/record_pharmacy_image" />
+
+
+            <TextView
+                android:id="@+id/record_pharmacy_code"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/record_pharmacy_address"
+                android:paddingLeft="5dp"
+                android:textStyle="bold"
+                android:textSize="10sp"
+                android:text="RUC: 10447966838"
+                android:layout_toRightOf="@+id/record_pharmacy_image"
+                android:layout_alignRight="@+id/record_pharmacy_address"
+                android:layout_alignEnd="@+id/record_pharmacy_address" />
+
+            <TextView
+                android:id="@+id/record_pharmacy_category"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/record_pharmacy_code"
+                android:paddingLeft="5dp"
+                android:textSize="10sp"
+                android:text="Categoria"
+
+                android:layout_toRightOf="@+id/record_pharmacy_image"
+                android:layout_alignRight="@+id/record_pharmacy_code"
+                android:layout_alignEnd="@+id/record_pharmacy_code" />
+
+
+
+            <TextView
+                android:id="@+id/record_pharmacy_usuario"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/record_pharmacy_category"
+                android:paddingLeft="5dp"
+                android:textSize="10sp"
+                android:text="REPRESENTANTE"
+                android:textStyle="bold"
+                android:layout_toRightOf="@+id/record_pharmacy_image"
+                android:layout_alignRight="@+id/record_pharmacy_category"
+                android:layout_alignEnd="@+id/record_pharmacy_category" />
+
+            <TextView
+                android:id="@+id/record_pharmacy_comment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/record_pharmacy_usuario"
+                android:paddingLeft="5dp"
+                android:textSize="10sp"
+                android:text="Comentario"
+                android:textColor="@android:color/holo_red_dark"
+                android:layout_toRightOf="@+id/record_pharmacy_image"
+                android:layout_alignRight="@+id/record_pharmacy_usuario"
+                android:layout_alignEnd="@+id/record_pharmacy_usuario" />
+
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/record_pharmacy_status"
+                android:src="@drawable/sync_on"
+                android:paddingRight="5dp"
+                android:paddingTop="5dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/record_pharmacy_check"
+                android:src="@drawable/vp0"
+                android:paddingRight="5dp"
+                android:paddingTop="5dp"
+                android:layout_alignParentTop="false"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/record_pharmacy_alert"
+                android:src="@drawable/fa_alerta"
+                android:paddingRight="5dp"
+                android:paddingTop="5dp"
+                android:layout_alignParentBottom="true"
+                android:layout_toLeftOf="@+id/record_pharmacy_check"
+                android:layout_toStartOf="@+id/record_pharmacy_check" />
+
+
+
+        </RelativeLayout>
+
+        </android.support.v7.widget.CardView>
+
+    </LinearLayout>

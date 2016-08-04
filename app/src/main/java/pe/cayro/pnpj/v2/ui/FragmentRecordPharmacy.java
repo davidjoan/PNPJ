@@ -26,8 +26,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.squareup.picasso.Picasso;
-
 import java.util.List;
 
 import butterknife.Bind;
@@ -35,34 +33,34 @@ import butterknife.ButterKnife;
 import io.realm.Realm;
 import io.realm.RealmResults;
 import io.realm.Sort;
-import pe.cayro.pnpj.v2.NewDoctorActivity;
+import pe.cayro.pnpj.v2.NewRecordPharmacyActivity;
 import pe.cayro.pnpj.v2.R;
-import pe.cayro.pnpj.v2.model.Doctor;
+import pe.cayro.pnpj.v2.model.RecordPharmacy;
 import pe.cayro.pnpj.v2.model.User;
 import pe.cayro.pnpj.v2.util.Constants;
 
 /**
  * Created by David on 8/01/16.
  */
-public class FragmentDoctor extends Fragment {
-    private static String TAG = FragmentDoctor.class.getSimpleName();
+public class FragmentRecordPharmacy extends Fragment {
+    private static String TAG = FragmentRecordPharmacy.class.getSimpleName();
 
-    static final int ADD_DOCTOR_REQUEST = 1;
+    static final int ADD_RECORD_PHARMACY_REQUEST = 1;
 
-    @Bind(R.id.doctor_recycler_view)
+    @Bind(R.id.record_pharmacy_recycler_view)
     protected RecyclerView mRecyclerView;
 
     private Realm realm;
     private User user;
 
-    private RealmResults<Doctor> result;
-    private DoctorListAdapter mAdapter;
+    private RealmResults<RecordPharmacy> result;
+    private RecordPharmacyListAdapter mAdapter;
     protected RecyclerView.LayoutManager mLayoutManager;
 
-    public static FragmentDoctor newInstance() {
+    public static FragmentRecordPharmacy newInstance() {
         Bundle args = new Bundle();
 
-        FragmentDoctor fragment = new FragmentDoctor();
+        FragmentRecordPharmacy fragment = new FragmentRecordPharmacy();
         fragment.setArguments(args);
         return fragment;
     }
@@ -75,9 +73,9 @@ public class FragmentDoctor extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View view =inflater.inflate(R.layout.fragment_doctor,container,false);
+        View view =inflater.inflate(R.layout.fragment_record_pharmacy,container,false);
 
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(Constants.DOCTORS);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.pharmacy);
 
         ButterKnife.bind(this, view);
 
@@ -85,13 +83,14 @@ public class FragmentDoctor extends Fragment {
 
         user = realm.where(User.class).findFirst();
 
-
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new DoctorListAdapter(result, R.layout.doctor_item);
+        mAdapter = new RecordPharmacyListAdapter(result, R.layout.record_pharmacy_item);
         mRecyclerView.setAdapter(mAdapter);
 
         refreshRecordUi();
+
+        setHasOptionsMenu(true);
 
         ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.
                 SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
@@ -108,42 +107,34 @@ public class FragmentDoctor extends Fragment {
                 new AlertDialog.Builder(((AppCompatActivity) getActivity()).
                         getSupportActionBar().getThemedContext())
                         .setIcon(android.R.drawable.ic_dialog_alert)
-                        .setTitle("Eliminar Médico")
-                        .setMessage("Desea eliminar este médico?")
+                        .setTitle("Eliminar Farmacia")
+                        .setMessage("Desea eliminar esta Farmacia?")
                         .setPositiveButton("Si", new DialogInterface.OnClickListener() {
-
 
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
 
-                                DoctorListAdapter.ViewHolder temp =
-                                        (DoctorListAdapter.ViewHolder) viewHolder;
+                                RecordPharmacyListAdapter.ViewHolder temp =
+                                        (RecordPharmacyListAdapter.ViewHolder) viewHolder;
 
                                 realm.beginTransaction();
 
-                                Doctor doctor = realm.where(Doctor.class).
+                                RecordPharmacy institution = realm.where(RecordPharmacy.class).
                                         equalTo(Constants.UUID, temp.uuid).findFirst();
                                 //record.removeFromRealm();
 
-                                if(doctor.isSent())
-                                {
-                                    Toast.makeText(getActivity(), "El Médico ya fue emviado, no puede eliminarse.",
+
+
+                                if(institution.isSent()){
+
+                                    Toast.makeText(getActivity(), "La Farmacia ya fue aprobado, no puede eliminarse.",
                                             Toast.LENGTH_SHORT).show();
-                                }else{
-
-                                    if(doctor.getCheck() > 1){
-
-                                        Toast.makeText(getActivity(), "El Médico ya fue aprobado, no puede eliminarse.",
-                                                Toast.LENGTH_SHORT).show();
-
-                                    }else{
-                                        doctor.setActive(Boolean.FALSE);
-                                        doctor.setSent(Boolean.FALSE);
-                                    }
 
                                 }
-
-
+                                else{
+                                    institution.setActive(Boolean.FALSE);
+                                    institution.setSent(Boolean.FALSE);
+                                }
                                 realm.commitTransaction();
 
                                 refreshRecordUi();
@@ -163,17 +154,53 @@ public class FragmentDoctor extends Fragment {
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
         itemTouchHelper.attachToRecyclerView(mRecyclerView);
-
         setHasOptionsMenu(true);
         return view;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()){
+            case R.id.action_new_institution:
+                Intent intent = new Intent(getActivity(), NewRecordPharmacyActivity.class);
+                startActivityForResult(intent, ADD_RECORD_PHARMACY_REQUEST);
+                break;
+            case R.id.action_all:
+                result = realm.where(RecordPharmacy.class).
+                        equalTo("active", Boolean.TRUE).
+                        findAll();
+                break;
+            case R.id.action_pending:
+                result = realm.where(RecordPharmacy.class).
+                        equalTo("active", Boolean.TRUE).
+                        equalTo("check", 1).findAll();
+                break;
+            case R.id.action_aproved:
+                result = realm.where(RecordPharmacy.class).
+                        equalTo("active", Boolean.TRUE).
+                        equalTo("check", 2).findAll();
+                break;
+            case R.id.action_upaproved:
+                result = realm.where(RecordPharmacy.class).
+                        equalTo("active", Boolean.TRUE).
+                        equalTo("check", 3).findAll();
+                break;
+        }
+
+
+        item.setChecked((item.isChecked())?false:true);
+        mAdapter.setData(result);
+        mAdapter.notifyDataSetChanged();
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        //menu.clear();
-        inflater.inflate(R.menu.menu_doctor, menu);
+
+        inflater.inflate(R.menu.menu_institution, menu);
+
 
         MenuItem searchItem = menu.findItem(R.id.action_search);
         SearchManager searchManager = (SearchManager) getActivity().
@@ -201,17 +228,15 @@ public class FragmentDoctor extends Fragment {
                 @Override
                 public boolean onQueryTextSubmit(String data) {
                     if (!TextUtils.isEmpty(data)) {
-                        result = realm.where(Doctor.class).beginGroup()
-                                .contains("firstname", data.toUpperCase())
+                        result = realm.where(RecordPharmacy.class).beginGroup()
+                                .contains("businessname", data.toUpperCase())
                                 .or()
-                                .contains("lastname", data.toUpperCase())
+                                .contains("ruc", data.toUpperCase())
                                 .or()
-                                .contains("surname", data.toUpperCase())
-                                .or()
-                                .contains("code", data.toUpperCase())
+                                .contains("address", data.toUpperCase())
                                 .endGroup().equalTo("active", Boolean.TRUE).findAll();
+                        result.sort("created_at", Sort.DESCENDING);
 
-                        result.sort("createdAt", Sort.DESCENDING);
                         mAdapter.setData(result);
                         mAdapter.notifyDataSetChanged();
                     }
@@ -222,57 +247,21 @@ public class FragmentDoctor extends Fragment {
         }
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.action_new_doctor:
-                //TODO: Add Doctor Form
-                Intent intent = new Intent(getActivity(), NewDoctorActivity.class);
-
-                startActivityForResult(intent, ADD_DOCTOR_REQUEST);
-                break;
-            case R.id.action_doctor_all:
-                result = realm.where(Doctor.class).
-                        equalTo("active", Boolean.TRUE).
-                        findAll();
-                break;
-            case R.id.action_doctor_pending:
-                result = realm.where(Doctor.class).
-                        equalTo("active", Boolean.TRUE).
-                        equalTo("check", 1).findAll();
-                break;
-            case R.id.action_doctor_aproved:
-                result = realm.where(Doctor.class).
-                        equalTo("active", Boolean.TRUE).
-                        equalTo("check", 2).findAll();
-                break;
-            case R.id.action_doctor_upaproved:
-                result = realm.where(Doctor.class).
-                        equalTo("active", Boolean.TRUE).
-                        equalTo("check", 3).findAll();
-                break;
 
 
-        }
 
-        item.setChecked((item.isChecked())?false:true);
-        mAdapter.setData(result);
-        mAdapter.notifyDataSetChanged();
-        return super.onOptionsItemSelected(item);
-    }
+    public class RecordPharmacyListAdapter extends RecyclerView.
+            Adapter<RecordPharmacyListAdapter.ViewHolder> {
 
-    public class DoctorListAdapter extends RecyclerView.
-            Adapter<DoctorListAdapter.ViewHolder> {
-
-        private List<Doctor> items;
+        private List<RecordPharmacy> items;
         private int itemLayout;
 
-        public DoctorListAdapter(List<Doctor> items, int itemLayout) {
+        public RecordPharmacyListAdapter(List<RecordPharmacy> items, int itemLayout) {
             this.items = items;
             this.itemLayout = itemLayout;
         }
 
-        public void setData(List<Doctor> items) {
+        public void setData(List<RecordPharmacy> items) {
             this.items = items;
         }
 
@@ -286,26 +275,42 @@ public class FragmentDoctor extends Fragment {
 
         @Override
         public void onBindViewHolder(ViewHolder viewHolder, int position) {
-            Doctor item = items.get(position);
+            RecordPharmacy item = items.get(position);
 
-            viewHolder.name.setText(new StringBuilder().append(item.getFirstname()).
-                    append(Constants.SPACE).append(item.getLastname()).
-                    append(Constants.SPACE).append(item.getSurname()).toString());
-            viewHolder.code.setText(Constants.CMP_FIELD+item.getCode());
-            viewHolder.specialty.setText(Constants.SPECIALTY_FIELD+item.getSpecialty().getName());
+            viewHolder.name.setText(item.getBusinessname());
+            String tipo = "";
+            switch (item.getTypeaddress())
+            {
+                case 1 :
+                    tipo = "Av.";
+                    break;
+                case 2 :
+                    tipo = "Calle";
+                    break;
+                case 3 :
+                    tipo = "Jr.";
+                    break;
+                case 4 :
+                    tipo = "Psj.";
+                    break;
+                case 5 :
+                    tipo = "Otro";
+                    break;
+            }
+
+            viewHolder.address.setText("Dirección: "+tipo+" "+item.getAddress()+" "+item.getNumberaddress());
+
+            viewHolder.code.setText(Constants.RUC_FIELD+item.getRuc());
+
             viewHolder.uuid = item.getUuid();
-            viewHolder.active = item.getCheck();
+            viewHolder.checkValue = item.getCheck();
+            viewHolder.active = item.isSent();
 
             viewHolder.comment.setText("Comentario: "+((item.getComment() == null)?"vacío":item.getComment()));
-            viewHolder.usuario.setText("Representante: "+item.getUser());
+            viewHolder.usuario.setText("Usuario: "+item.getUser());
             viewHolder.category.setText("Categoría: "+((item.getScore() == null)?"vacío":item.getScore()));
 
-            Picasso.with(getContext()).
-                    load(new StringBuilder().append(Constants.CMP_PHOTO_SERVER)
-                            .append(String.format("%05d", Integer.parseInt(item.getCode())))
-                            .append(Constants.DOT_JPG).toString()).
-                            error(R.drawable.avatar).
-                            into(viewHolder.image);
+
 
             switch (item.getCheck())
             {
@@ -343,56 +348,54 @@ public class FragmentDoctor extends Fragment {
 
         public class ViewHolder extends RecyclerView.ViewHolder
                 implements RecyclerView.OnClickListener {
-            public ImageView image;
-            public ImageView alert;
+
             public TextView name;
-            public TextView specialty;
+            public TextView address;
             public TextView code;
-            public String uuid;
-            public int active;
+
+            public int checkValue;
             public ImageView status;
             public ImageView check;
             public TextView comment;
             public TextView usuario;
             public TextView category;
+            public String uuid;
+            public ImageView alert;
+            public boolean active;
 
             public ViewHolder(View itemView) {
                 super(itemView);
-                name    = (TextView) itemView.findViewById(R.id.doctor_name);
-                specialty = (TextView) itemView.findViewById(R.id.doctor_specialty);
-                code = (TextView) itemView.findViewById(R.id.doctor_code);
-                image = (ImageView) itemView.findViewById(R.id.doctor_image);
-
-                comment  = (TextView) itemView.findViewById(R.id.doctor_comment);
-                usuario  = (TextView) itemView.findViewById(R.id.doctor_usuario);
-                category = (TextView) itemView.findViewById(R.id.doctor_category);
-
-                check = (ImageView) itemView.findViewById(R.id.doctor_check);
-                status = (ImageView) itemView.findViewById(R.id.doctor_status);
-                alert = (ImageView) itemView.findViewById(R.id.alert);
+                name = (TextView) itemView.findViewById(R.id.record_pharmacy_name);
+                address = (TextView) itemView.findViewById(R.id.record_pharmacy_address);
+                code = (TextView) itemView.findViewById(R.id.record_pharmacy_code);
+                comment = (TextView) itemView.findViewById(R.id.record_pharmacy_comment);
+                usuario = (TextView) itemView.findViewById(R.id.record_pharmacy_usuario);
+                category = (TextView) itemView.findViewById(R.id.record_pharmacy_category);
+                check = (ImageView) itemView.findViewById(R.id.record_pharmacy_check);
+                status = (ImageView) itemView.findViewById(R.id.record_pharmacy_status);
+                alert = (ImageView) itemView.findViewById(R.id.record_pharmacy_alert);
 
                 itemView.setOnClickListener(this);
             }
 
             @Override
             public void onClick(View view) {
-
                 if(user.getRol().equals("REG")) {
 
-                    if (active == 1) {
-                        Intent intent = new Intent(getActivity(), NewDoctorActivity.class);
+                    if (!active) {
+                        Intent intent = new Intent(getActivity(), NewRecordPharmacyActivity.class);
                         intent.putExtra(Constants.UUID, uuid);
-                        startActivityForResult(intent, ADD_DOCTOR_REQUEST);
+                        startActivityForResult(intent, ADD_RECORD_PHARMACY_REQUEST);
                     } else {
-                        Toast.makeText(getActivity(), "El médico ya no puede modificarse",
+                        Toast.makeText(getActivity(), "La Farmacia ya no puede modificarse",
                                 Toast.LENGTH_SHORT).show();
                     }
 
                 }else{
 
-                    Intent intent = new Intent(getActivity(), NewDoctorActivity.class);
+                    Intent intent = new Intent(getActivity(), NewRecordPharmacyActivity.class);
                     intent.putExtra(Constants.UUID, uuid);
-                    startActivityForResult(intent, ADD_DOCTOR_REQUEST);
+                    startActivityForResult(intent, ADD_RECORD_PHARMACY_REQUEST);
                 }
             }
         }
@@ -406,21 +409,20 @@ public class FragmentDoctor extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == ADD_DOCTOR_REQUEST) {
+        if (requestCode == ADD_RECORD_PHARMACY_REQUEST) {
             if (resultCode == Activity.RESULT_OK) {
                 refreshRecordUi();
             }
         }
     }
 
-
     public void refreshRecordUi(){
 
-        result = realm.where(Doctor.class).
+        result = realm.where(RecordPharmacy.class).
                 equalTo("active", Boolean.TRUE).
                 findAll();
 
-        result.sort("createdAt", Sort.DESCENDING);
+        result.sort("created_at", Sort.DESCENDING);
         mAdapter.setData(result);
         mAdapter.notifyDataSetChanged();
 

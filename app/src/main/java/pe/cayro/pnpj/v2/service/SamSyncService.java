@@ -14,10 +14,10 @@ import pe.cayro.pnpj.v2.R;
 import pe.cayro.pnpj.v2.WelcomeActivity;
 import pe.cayro.pnpj.v2.api.RestClient;
 import pe.cayro.pnpj.v2.model.Doctor;
-import pe.cayro.pnpj.v2.model.Institution;
+import pe.cayro.pnpj.v2.model.RecordPharmacy;
 import pe.cayro.pnpj.v2.model.Result;
 import pe.cayro.pnpj.v2.serializer.DoctorSerializer;
-import pe.cayro.pnpj.v2.serializer.InstitutionSerializer;
+import pe.cayro.pnpj.v2.serializer.RecordPharmacySerializer;
 import pe.cayro.pnpj.v2.util.Constants;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -45,7 +45,7 @@ public class SamSyncService extends IntentService {
 
      //   PatientSerializer serializerPatient         = new PatientSerializer();
         DoctorSerializer serializerDoctor             = new DoctorSerializer();
-        InstitutionSerializer serializerInstitution   = new InstitutionSerializer();
+        RecordPharmacySerializer serializerInstitution   = new RecordPharmacySerializer();
      //   TrackingSerializer serializerTracking       = new TrackingSerializer();
       //  RecordSerializer serializerRecord           = new RecordSerializer();
       //  SpecialMoveSerializer serializerSpecialMove = new SpecialMoveSerializer();
@@ -90,25 +90,30 @@ public class SamSyncService extends IntentService {
 
         }*/
 
-        RealmResults<Institution> pendingInstitutions = realmMain.where(Institution.class).
-                equalTo(Constants.SENT, Boolean.FALSE).findAll();
 
-        for(Institution institution : pendingInstitutions){
-            RestClient.get().createInstitution(serializerInstitution.serialize(institution, null,null), new Callback<Result>(){
+
+      //  realmMain.commitTransaction();
+
+
+        RealmResults<RecordPharmacy> pendingInstitutions = realmMain.where(RecordPharmacy.class).
+                equalTo(Constants.SENT, Boolean.FALSE).notEqualTo("type",0).findAll();
+
+        for(RecordPharmacy institution : pendingInstitutions){
+            RestClient.get().createRecordPharmacy(serializerInstitution.serialize(institution, null,null), new Callback<Result>(){
 
                 @Override
                 public void success(Result result, Response response) {
 
-                    Log.i(TAG, "Institution");
+                    Log.i(TAG, "RecordPharmacy");
                     Log.i(TAG, result.getUuid());
                     Log.i(TAG, result.getIdResult());
 
                     if(Constants.ONE.equals(result.getIdResult())){
 
-                        Log.i(TAG, "Institution Updated");
+                        Log.i(TAG, "RecordPharmacy Updated");
                         Realm realm = Realm.getDefaultInstance();
                         realm.beginTransaction();
-                        Institution temp = realm.where(Institution.class).equalTo("uuid",
+                        RecordPharmacy temp = realm.where(RecordPharmacy.class).equalTo("uuid",
                                 result.getUuid()).findFirst();
                         temp.setSent(Boolean.TRUE);
                         realm.copyToRealmOrUpdate(temp);

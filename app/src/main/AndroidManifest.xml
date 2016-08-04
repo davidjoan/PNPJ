@@ -52,47 +52,31 @@
                 android:value="pe.cayro.pnpj.v2.MainActivity" />
         </activity>
         <activity
-            android:name=".LoginActivity"
-            android:label="@string/title_activity_login"
+            android:name=".NewRecordActivity"
+            android:label="@string/title_activity_new_record"
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="pe.cayro.pnpj.v2.MainActivity" />
         </activity>
         <activity
-            android:name=".InstitutionActivity"
-            android:label="@string/title_activity_institution"
-            android:parentActivityName=".LoginActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="pe.cayro.pnpj.v2.LoginActivity" />
-        </activity>
-        <activity
-            android:name=".NewRecordActivity"
-            android:label="@string/title_activity_new_record"
-            android:parentActivityName=".InstitutionActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="pe.cayro.pnpj.v2.InstitutionActivity" />
-        </activity>
-        <activity
             android:name=".NewPatientActivity"
             android:label="@string/title_activity_new_patient"
-            android:parentActivityName=".InstitutionActivity">
+            android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="pe.cayro.pnpj.v2.InstitutionActivity" />
+                android:value="pe.cayro.pnpj.v2.MainActivity" />
         </activity>
         <activity
             android:name=".NewDoctorActivity"
             android:label="@string/title_activity_new_doctor"
-            android:parentActivityName=".InstitutionActivity">
+            android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="pe.cayro.pnpj.v2.InstitutionActivity" />
+                android:value="pe.cayro.pnpj.v2.MainActivity" />
         </activity>
         <activity
-            android:name=".NewInstitutionActivity"
+            android:name=".NewRecordPharmacyActivity"
             android:label="@string/title_activity_new_institution"
             android:parentActivityName=".MainActivity">
             <meta-data
@@ -124,14 +108,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="pe.cayro.pnpj.v2.AddRecordDetailActivity" />
         </activity>
-        <activity
-            android:name=".ShowRecordActivity"
-            android:label="@string/title_activity_show_record"
-            android:parentActivityName=".InstitutionActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="pe.cayro.pnpj.v2.InstitutionActivity" />
-        </activity>
 
         <receiver
             android:name=".service.SamAlarmReceiver"
@@ -148,60 +124,6 @@
             </intent-filter>
         </receiver>
 
-        <activity
-            android:name=".ui.reports.ReportQuoteActivity"
-            android:label="@string/title_activity_report_quote"
-            android:parentActivityName=".MainActivity"
-            android:theme="@style/SamTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
-        </activity>
-        <activity
-            android:name=".ui.reports.ReportDetailQuoteActivity"
-            android:label="@string/title_activity_report_detail_quote"
-            android:parentActivityName=".ui.reports.ReportQuoteActivity"
-            android:theme="@style/SamTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="pe.cayro.pnpj.v2.ui.reports.ReportQuoteActivity" />
-        </activity>
-        <activity
-            android:name=".ui.reports.ReportUserActivity"
-            android:label="@string/title_activity_report_user"
-            android:parentActivityName=".MainActivity"
-            android:theme="@style/SamTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="pe.cayro.pnpj.v2.MainActivity" />
-        </activity>
-        <activity
-            android:name=".ui.reports.ReportStockActivity"
-            android:label="@string/title_activity_report_stock"
-            android:parentActivityName=".MainActivity"
-            android:theme="@style/SamTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
-        </activity>
-        <activity
-            android:name=".NewSpecialMoveActivity"
-            android:label="@string/title_activity_new_special_move"
-            android:parentActivityName=".MainActivity"
-            android:theme="@style/SamTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="pe.cayro.pnpj.v2.MainActivity" />
-        </activity>
-        <activity
-            android:name=".ShowSpecialMoveActivity"
-            android:label="@string/title_activity_show_special_move"
-            android:parentActivityName=".MainActivity"
-            android:theme="@style/SamTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="pe.cayro.pnpj.v2.MainActivity" />
-        </activity>
     </application>
 
 </manifest>

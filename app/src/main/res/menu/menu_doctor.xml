@@ -11,4 +11,25 @@
     <item android:id="@+id/action_new_doctor" android:title="@string/new_doctor"
         android:icon="@drawable/fa_add_user"
         android:orderInCategory="100" app:showAsAction="always" />
+
+    <group android:checkableBehavior="single">
+        <item android:id="@+id/action_doctor_all"
+            android:title="Todos"
+            android:checked="true"
+            android:orderInCategory="100"
+            app:showAsAction="ifRoom"/>
+        <item android:id="@+id/action_doctor_pending"
+            android:title="Pendientes"
+            android:orderInCategory="100"
+
+            app:showAsAction="ifRoom"/>
+        <item android:id="@+id/action_doctor_aproved"
+            android:title="Aprobados"
+            android:orderInCategory="100"
+            app:showAsAction="ifRoom" />
+        <item android:id="@+id/action_doctor_upaproved"
+            android:title="Desaprobados"
+            android:orderInCategory="100"
+            app:showAsAction="ifRoom"/>
+    </group>
 </menu>

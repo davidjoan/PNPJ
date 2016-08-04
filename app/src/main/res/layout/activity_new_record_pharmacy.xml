@@ -1,0 +1,224 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        layout="@layout/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center|left"
+            android:orientation="vertical">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="2dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true">
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
+
+            <AutoCompleteTextView
+                android:id="@+id/record_pharmacy_zone_autocompleter"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/zone"
+                android:inputType="textCapCharacters" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+             android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
+
+            <AutoCompleteTextView
+                android:id="@+id/record_pharmacy_code_autocompleter"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/record_ruc"
+                android:inputType="textCapCharacters" />
+        </android.support.design.widget.TextInputLayout>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true">
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/record_pharmacy_bussinessname"
+                android:hint="Razon Social"
+                android:inputType="textCapCharacters" />
+
+        </android.support.design.widget.TextInputLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="4dp"
+    android:layout_alignParentTop="true"
+    android:layout_centerHorizontal="true">
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/record_pharmacy_type_address"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="0.1" />
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.8"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/record_pharmacy_address"
+            android:hint="Calle"
+            android:inputType="textCapCharacters" />
+
+    </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.1"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/record_pharmacy_number_address"
+                android:hint="Nro."
+                android:inputType="number" />
+
+        </android.support.design.widget.TextInputLayout>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true">
+
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/doctor_category_text_input_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
+            <AutoCompleteTextView
+                android:id="@+id/record_pharmacy_category"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:ems="10"
+                android:hint="Categoría"
+                android:inputType="textCapCharacters" />
+        </android.support.design.widget.TextInputLayout>
+
+    </LinearLayout>
+
+            <RelativeLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="5dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Direcciones en la Zona"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="10dp"
+                    android:textStyle="bold"
+                    android:layout_gravity="center_horizontal"
+                    android:id="@+id/textView2"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/record_pharmacy_details"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/textView2"/>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/record_detail_footer_record_detail"
+                    android:layout_below="@+id/record_pharmacy_details"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true">
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/save"
+                        android:layout_weight="0.5"
+                        android:layout_margin="4dp"
+                        style="@style/ButtonAppTheme"
+                        android:id="@+id/record_pharmacy_save"
+                        />
+
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/cancel"
+                        android:layout_weight="0.5"
+                        android:layout_margin="4dp"
+                        style="@style/ButtonAppTheme"
+                        android:id="@+id/record_pharmacy_cancel"
+                        />
+                </LinearLayout>
+
+
+
+
+            </RelativeLayout>
+
+
+            </LinearLayout>
+    </ScrollView>
+</LinearLayout>
