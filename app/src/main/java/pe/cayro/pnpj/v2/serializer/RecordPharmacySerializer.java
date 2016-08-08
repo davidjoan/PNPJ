@@ -61,7 +61,7 @@ public class RecordPharmacySerializer implements JsonSerializer<RecordPharmacy> 
         jsonObject.addProperty("idzone", src.getIdzone());
         jsonObject.addProperty("score","");
         jsonObject.addProperty("numberaddress", src.getNumberaddress());
-        jsonObject.addProperty("idpharmacydetail", src.getIdpharmacydetail());
+        jsonObject.addProperty("idpharmacydetal", src.getIdpharmacydetail());
         jsonObject.addProperty("user_id", src.getUser_id());
 
         jsonObject.addProperty("created_at", src.getCreated_at());

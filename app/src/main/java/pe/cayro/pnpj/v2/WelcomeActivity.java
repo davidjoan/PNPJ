@@ -221,7 +221,13 @@ public class WelcomeActivity extends AppCompatActivity {
 
                 editor.apply();
 
-            } finally {
+            }
+            catch (Exception e)
+            {
+                Log.e(TAG, e.getMessage());
+                result = 1;
+            }
+            finally {
                 if (realm != null) {
                     realm.close();
                 }
@@ -239,6 +245,11 @@ public class WelcomeActivity extends AppCompatActivity {
             switch (result) {
                 case 0:
                     Snackbar.make(logo, R.string.login_success, Snackbar.LENGTH_LONG)
+                            .setAction(Constants.ACTION, null)
+                            .show();
+                    break;
+                case 1:
+                    Snackbar.make(logo, R.string.error_conection, Snackbar.LENGTH_LONG)
                             .setAction(Constants.ACTION, null)
                             .show();
                     break;
