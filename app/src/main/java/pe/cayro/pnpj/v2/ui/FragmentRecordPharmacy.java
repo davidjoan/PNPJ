@@ -123,13 +123,10 @@ public class FragmentRecordPharmacy extends Fragment {
                                         equalTo(Constants.UUID, temp.uuid).findFirst();
                                 //record.removeFromRealm();
 
-
-
                                 if(institution.isSent()){
 
-                                    Toast.makeText(getActivity(), "La Farmacia ya fue aprobado, no puede eliminarse.",
+                                    Toast.makeText(getActivity(), "La Farmacia ya fue enviada, no puede eliminarse.",
                                             Toast.LENGTH_SHORT).show();
-
                                 }
                                 else{
                                     institution.setActive(Boolean.FALSE);
@@ -148,7 +145,6 @@ public class FragmentRecordPharmacy extends Fragment {
                             }
                         })
                         .show();
-
             }
         };
 
@@ -164,6 +160,7 @@ public class FragmentRecordPharmacy extends Fragment {
         switch (item.getItemId()){
             case R.id.action_new_institution:
                 Intent intent = new Intent(getActivity(), NewRecordPharmacyActivity.class);
+                intent.putExtra(Constants.TYPE, "new");
                 startActivityForResult(intent, ADD_RECORD_PHARMACY_REQUEST);
                 break;
             case R.id.action_all:
@@ -188,7 +185,6 @@ public class FragmentRecordPharmacy extends Fragment {
                 break;
         }
 
-
         item.setChecked((item.isChecked())?false:true);
         mAdapter.setData(result);
         mAdapter.notifyDataSetChanged();
@@ -200,7 +196,6 @@ public class FragmentRecordPharmacy extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
 
         inflater.inflate(R.menu.menu_institution, menu);
-
 
         MenuItem searchItem = menu.findItem(R.id.action_search);
         SearchManager searchManager = (SearchManager) getActivity().
@@ -246,9 +241,6 @@ public class FragmentRecordPharmacy extends Fragment {
             searchView.setOnQueryTextListener(queryListener);
         }
     }
-
-
-
 
     public class RecordPharmacyListAdapter extends RecyclerView.
             Adapter<RecordPharmacyListAdapter.ViewHolder> {
@@ -311,6 +303,12 @@ public class FragmentRecordPharmacy extends Fragment {
             viewHolder.category.setText("Categoría: "+((item.getScore() == null)?"vacío":item.getScore()));
 
 
+            if(item.getLatitude().equals(""))
+            {
+                viewHolder.map.setImageResource(R.drawable.map_false);
+            }else{
+                viewHolder.map.setImageResource(R.drawable.map_true);
+            }
 
             switch (item.getCheck())
             {
@@ -356,6 +354,7 @@ public class FragmentRecordPharmacy extends Fragment {
             public int checkValue;
             public ImageView status;
             public ImageView check;
+            public ImageView map;
             public TextView comment;
             public TextView usuario;
             public TextView category;
@@ -374,6 +373,7 @@ public class FragmentRecordPharmacy extends Fragment {
                 check = (ImageView) itemView.findViewById(R.id.record_pharmacy_check);
                 status = (ImageView) itemView.findViewById(R.id.record_pharmacy_status);
                 alert = (ImageView) itemView.findViewById(R.id.record_pharmacy_alert);
+                map = (ImageView) itemView.findViewById(R.id.record_pharmacy_map);
 
                 itemView.setOnClickListener(this);
             }
@@ -385,6 +385,7 @@ public class FragmentRecordPharmacy extends Fragment {
                     if (!active) {
                         Intent intent = new Intent(getActivity(), NewRecordPharmacyActivity.class);
                         intent.putExtra(Constants.UUID, uuid);
+                        intent.putExtra(Constants.TYPE, "edit");
                         startActivityForResult(intent, ADD_RECORD_PHARMACY_REQUEST);
                     } else {
                         Toast.makeText(getActivity(), "La Farmacia ya no puede modificarse",
@@ -395,6 +396,7 @@ public class FragmentRecordPharmacy extends Fragment {
 
                     Intent intent = new Intent(getActivity(), NewRecordPharmacyActivity.class);
                     intent.putExtra(Constants.UUID, uuid);
+                    intent.putExtra(Constants.TYPE, "edit");
                     startActivityForResult(intent, ADD_RECORD_PHARMACY_REQUEST);
                 }
             }

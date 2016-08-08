@@ -43,60 +43,13 @@ public class SamSyncService extends IntentService {
 
         sendNotification("Iniciando Sincronización");
 
-     //   PatientSerializer serializerPatient         = new PatientSerializer();
-        DoctorSerializer serializerDoctor             = new DoctorSerializer();
-        RecordPharmacySerializer serializerInstitution   = new RecordPharmacySerializer();
-     //   TrackingSerializer serializerTracking       = new TrackingSerializer();
-      //  RecordSerializer serializerRecord           = new RecordSerializer();
-      //  SpecialMoveSerializer serializerSpecialMove = new SpecialMoveSerializer();
-
+        DoctorSerializer serializerDoctor              = new DoctorSerializer();
+        RecordPharmacySerializer serializerInstitution = new RecordPharmacySerializer();
 
         Realm realmMain = Realm.getDefaultInstance();
 
-      /*  RealmResults<Patient> pendingPatients = realmMain.where(Patient.class).
-                        equalTo(Constants.SENT, Boolean.FALSE).findAll();
-
-        for (Patient patient: pendingPatients) {
-
-                    RestClient.get().createPatient(serializerPatient.
-                            serialize(patient, null, null), new Callback<Result>() {
-                        @Override
-                        public void success(Result result, Response response) {
-
-                            Log.i(TAG, "Patients");
-                            Log.i(TAG, result.getUuid());
-                            Log.i(TAG, result.getIdResult());
-
-                            if(Constants.ONE.equals(result.getIdResult())){
-                                Log.i(TAG, "Patient Updated");
-                                Realm realm = Realm.getDefaultInstance();
-                                realm.beginTransaction();
-                                Patient temp = realm.where(Patient.class).equalTo("uuid",
-                                        result.getUuid()).findFirst();
-                                temp.setSent(Boolean.TRUE);
-                                realm.copyToRealmOrUpdate(temp);
-                                realm.commitTransaction();
-                                realm.close();
-                            }
-                        }
-
-                        @Override
-                        public void failure(RetrofitError error) {
-
-                            Log.e(TAG, error.getMessage());
-
-                        }
-                    });
-
-        }*/
-
-
-
-      //  realmMain.commitTransaction();
-
-
         RealmResults<RecordPharmacy> pendingInstitutions = realmMain.where(RecordPharmacy.class).
-                equalTo(Constants.SENT, Boolean.FALSE).notEqualTo("type",0).findAll();
+                equalTo(Constants.SENT, Boolean.FALSE).isNotNull("ruc").findAll();
 
         for(RecordPharmacy institution : pendingInstitutions){
             RestClient.get().createRecordPharmacy(serializerInstitution.serialize(institution, null,null), new Callback<Result>(){
@@ -120,7 +73,6 @@ public class SamSyncService extends IntentService {
                         realm.commitTransaction();
                         realm.close();
                     }
-
                 }
 
                 @Override
@@ -128,12 +80,10 @@ public class SamSyncService extends IntentService {
                     Log.e(TAG, error.getMessage());
                 }
             });
-
         }
 
-
         RealmResults<Doctor> pendingDoctors = realmMain.where(Doctor.class).
-                        equalTo(Constants.SENT, Boolean.FALSE).findAll();
+                        equalTo(Constants.SENT, Boolean.FALSE).notEqualTo("doctorTypeId", 0).findAll();
         for (Doctor doctor: pendingDoctors) {
 
                     RestClient.get().createDoctor(serializerDoctor.

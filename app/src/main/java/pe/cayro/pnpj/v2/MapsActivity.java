@@ -3,6 +3,7 @@ package pe.cayro.pnpj.v2;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -10,6 +11,11 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
+import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -26,7 +32,9 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import pe.cayro.pnpj.v2.util.Constants;
 
-public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback,
+        ConnectionCallbacks,
+        OnConnectionFailedListener {
 
     private static String TAG = MapsActivity.class.getSimpleName();
 
@@ -47,6 +55,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     LatLng ubicacion;
     MarkerOptions marker;
 
+    GoogleApiClient mGoogleApiClient;
+
+    Location mLastLocation;
+    String type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,11 +67,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         latitude = getIntent().getStringExtra(Constants.LATITUDE);
         longitude = getIntent().getStringExtra(Constants.LONGITUDE);
+        type = getIntent().getStringExtra(Constants.TYPE);
 
         ButterKnife.bind(this);
 
-
-        toolbar.setTitle("Geolocalización");
+        toolbar.setTitle(R.string.geolocalizacion);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(false);
@@ -72,12 +84,20 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         progress.setCancelable(false);
         progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progress.setIndeterminate(true);
-        progress.setMessage("Cargando...");
+        progress.setMessage(getString(R.string.loading));
 
         try {
             MapsInitializer.initialize(this.getApplicationContext());
         } catch (Exception e) {
             Log.e(TAG ,e.getMessage());
+        }
+
+        if (mGoogleApiClient == null) {
+            mGoogleApiClient = new GoogleApiClient.Builder(this)
+                    .addConnectionCallbacks(this)
+                    .addOnConnectionFailedListener(this)
+                    .addApi(LocationServices.API)
+                    .build();
         }
     }
 
@@ -128,7 +148,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                         title("Ubicación").
                         snippet("Dirección");
 
-
                 // Changing marker icon
                 marker.icon(BitmapDescriptorFactory
                         .defaultMarker(BitmapDescriptorFactory.HUE_RED));
@@ -154,6 +173,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             }
         });
+
         googleMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
             @Override
             public void onMarkerDragStart(Marker arg0) {
@@ -195,7 +215,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     public void doExit()
     {
-
         Intent intent = new Intent();
         intent.putExtra(Constants.LATITUDE, latitude);
         intent.putExtra(Constants.LONGITUDE, longitude);
@@ -214,5 +233,80 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             doExit();
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    protected void onStart() {
+        mGoogleApiClient.connect();
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        mGoogleApiClient.disconnect();
+        super.onStop();
+    }
+
+    @Override
+    public void onConnected(Bundle bundle) {
+
+        if(type.equals("new"))
+        {
+            mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
+                    mGoogleApiClient);
+            if (mLastLocation != null) {
+
+                LatLng latLng = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
+
+                Log.d(TAG, latLng.latitude + Constants.ELLIPSIS +
+                        latLng.longitude);
+
+
+                googleMap.clear();
+
+                marker = new MarkerOptions().position(latLng).
+                        title("Ubicación").
+                        snippet("Dirección");
+
+                // Changing marker icon
+                marker.icon(BitmapDescriptorFactory
+                        .defaultMarker(BitmapDescriptorFactory.HUE_RED));
+
+                marker.draggable(true);
+
+                googleMap.addMarker(marker);
+
+                CameraPosition cameraPosition = new CameraPosition.Builder()
+                        .target(latLng).zoom(12).build();
+                googleMap.animateCamera(CameraUpdateFactory
+                        .newCameraPosition(cameraPosition));
+
+
+                progress.show();
+
+
+                latitude = String.valueOf(latLng.latitude);
+                longitude = String.valueOf(latLng.longitude);
+
+                latitude2 = latLng.latitude;
+                longitude2 = latLng.longitude;
+
+                progress.dismiss();
+
+                Toast.makeText(getApplicationContext(), "Se Obtuvo la Ubicación Actual.",  Toast.LENGTH_SHORT).show();
+
+            }
+        }
+
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+
     }
 }

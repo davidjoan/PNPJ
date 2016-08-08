@@ -21,6 +21,8 @@ import android.widget.Toast;
 
 import java.util.Date;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -91,7 +93,7 @@ public class NewDoctorActivity extends AppCompatActivity {
     private Specialty specialty;
     private SpecialtyAutocompleterAdapter adapterSpecialty;
     private DoctorCloseupAutocompleterAdapter adapterCloseup;
-    private boolean alert = true;
+    private boolean alert = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,9 +118,10 @@ public class NewDoctorActivity extends AppCompatActivity {
                 doctorsCloseUp = realm.where(DoctorsCloseUp.class).equalTo(Constants.ID, temp).findFirst();
 
                 if(doctorsCloseUp.isFichero()){
-                    doctorCode.setError("Médico ya existe en fichero");
-                    doctorCode.setFocusable(true);
-                    alert = true;
+
+                    Toast.makeText(getApplicationContext(), Constants.SAVE_OK,
+                            Toast.LENGTH_SHORT).show();
+                    alert = false;
                 }else{
                     doctorCode.setText(doctorsCloseUp.getId());
                     doctorFirstname.setText(doctorsCloseUp.getName());
@@ -181,11 +184,12 @@ public class NewDoctorActivity extends AppCompatActivity {
         spinnerSex.setAdapter(adapterSex);
 
         spinnerSex.setSelection(0);
+        doctorCategory.setVisibility(View.GONE);
 
         if(user.getRol().equals("REG"))
         {
             doctorSave.setText("Guardar");
-            doctorCategory.setVisibility(View.GONE);
+
         }
 
         if(uuid != null){
@@ -309,6 +313,15 @@ public class NewDoctorActivity extends AppCompatActivity {
                     }
                 }
 
+                Pattern pattern = Pattern.compile(".+@.+\\.[a-z]+");
+                Matcher matcher = pattern.matcher(doctorEmail.getText().toString());
+
+                if(!matcher.matches())
+                {
+                    countErrors++;
+                    doctorEmail.setError("El Correo Electrónico es incorrecto.");
+                }
+
                 if (countErrors == 0) {
 
                     try {
@@ -358,6 +371,7 @@ public class NewDoctorActivity extends AppCompatActivity {
                         if(user.getRol().equals("SUP")){
 
                                 doctor.setCheck(2);
+                            doctor.setSent(false);
 
                         }
 
@@ -395,11 +409,9 @@ public class NewDoctorActivity extends AppCompatActivity {
 
                     realm.beginTransaction();
                     doctor.setCheck(3);
-
+                    doctor.setSent(false);
                     realm.copyToRealmOrUpdate(doctor);
-
                     realm.commitTransaction();
-
                 }
                 Intent intent = new Intent();
                 if (getParent() == null) {
@@ -410,8 +422,6 @@ public class NewDoctorActivity extends AppCompatActivity {
                 realm.close();
 
                 finish();
-
-
             }
         });
     }

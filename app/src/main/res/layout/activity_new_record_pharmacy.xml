@@ -38,6 +38,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="@string/zone"
+                android:digits="0123456789qwertzuiopasdfghjklyxcvbnñmABCDEFGHIJKLMNÑOPQRSTUVWXYZ "
                 android:inputType="textCapCharacters" />
         </android.support.design.widget.TextInputLayout>
 
@@ -53,6 +54,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="@string/record_ruc"
+                android:digits="0123456789qwertzuiopasdfghjklyxcvbnñmABCDEFGHIJKLMNÑOPQRSTUVWXYZ "
                 android:inputType="textCapCharacters" />
         </android.support.design.widget.TextInputLayout>
 
@@ -77,6 +79,7 @@
                 android:layout_height="match_parent"
                 android:id="@+id/record_pharmacy_bussinessname"
                 android:hint="Razon Social"
+                android:digits="0123456789qwertzuiopasdfghjklyxcvbnñmABCDEFGHIJKLMNÑOPQRSTUVWXYZ "
                 android:inputType="textCapCharacters" />
 
         </android.support.design.widget.TextInputLayout>
@@ -109,6 +112,7 @@
             android:layout_height="match_parent"
             android:id="@+id/record_pharmacy_address"
             android:hint="Calle"
+            android:digits="0123456789qwertzuiopasdfghjklyxcvbnñmABCDEFGHIJKLMNÑOPQRSTUVWXYZ/\,.- "
             android:inputType="textCapCharacters" />
 
     </android.support.design.widget.TextInputLayout>
@@ -212,13 +216,7 @@
                         android:id="@+id/record_pharmacy_cancel"
                         />
                 </LinearLayout>
-
-
-
-
             </RelativeLayout>
-
-
             </LinearLayout>
     </ScrollView>
 </LinearLayout>

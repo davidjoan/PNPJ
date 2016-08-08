@@ -6,7 +6,7 @@
     <TextView
         android:id="@+id/ubigeo_name"
         android:layout_width="match_parent"
-        android:layout_height="20dp"
+        android:layout_height="45dp"
         android:textSize="10dp"
         android:layout_alignParentTop="true"
         android:paddingLeft="5dp"

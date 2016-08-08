@@ -2,17 +2,21 @@ package pe.cayro.pnpj.v2;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -20,18 +24,19 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import io.realm.Realm;
 import io.realm.RealmResults;
-import pe.cayro.pnpj.v2.adapter.PharmacyAddressListAdapter;
 import pe.cayro.pnpj.v2.adapter.PharmacyAutocompleterAdapter;
 import pe.cayro.pnpj.v2.adapter.UbigeoAutocompleterAdapter;
 import pe.cayro.pnpj.v2.model.Pharmacy;
@@ -86,6 +91,7 @@ public class NewRecordPharmacyActivity extends AppCompatActivity {
 
     String latitude;
     String longitude;
+    String type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,13 +99,28 @@ public class NewRecordPharmacyActivity extends AppCompatActivity {
         setContentView(R.layout.activity_new_record_pharmacy);
 
         uuid = getIntent().getStringExtra(Constants.UUID);
+        type = getIntent().getStringExtra(Constants.TYPE);
 
         ButterKnife.bind(this);
         toolbar.setTitle("Nueva Farmacia");
 
         realm = Realm.getDefaultInstance();
         user = realm.where(User.class).findFirst();
+/*
+        RealmResults<Ubigeo>  ubigeos = realm.where(Ubigeo.class).findAll();
 
+        for(Ubigeo temp : ubigeos)
+        {
+            Log.d(TAG, "Ubigeo: "+temp.getId()+" , "+temp.getCode());
+        }
+
+        RealmResults<PharmacyAddress>  detalles = realm.where(PharmacyAddress.class).findAll();
+
+        for(PharmacyAddress temp : detalles)
+        {
+            Log.d(TAG, "PharmacyAddress: "+temp.getId()+" , "+temp.getIdpharmacy()+" , "+temp.getIdubigeo());
+        }
+*/
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.address_type_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -116,16 +137,15 @@ public class NewRecordPharmacyActivity extends AppCompatActivity {
 
         recordDetails = realm.where(PharmacyAddress.class).equalTo("id",0).findAll();
 
-
-
         if(uuid != null){
 
             recordPharmacy = realm.where(RecordPharmacy.class).equalTo(Constants.UUID, uuid).findFirst();
 
             recordDetails = realm.where(PharmacyAddress.class).
                     equalTo("code",recordPharmacy.getRuc()).
-                    //equalTo("idubigeo",recordPharmacy.getIdzone()).
+                    equalTo("idubigeo",recordPharmacy.getIdzone()).
                     findAll();
+
 
 
             ubigeo = realm.where(Ubigeo.class).equalTo(Constants.ID, recordPharmacy.getIdzone()).findFirst();
@@ -209,7 +229,7 @@ public class NewRecordPharmacyActivity extends AppCompatActivity {
                     Log.d(TAG, String.valueOf(ubigeo.getId()));
                     recordDetails = realm.where(PharmacyAddress.class)
                             .equalTo("idpharmacy", pharmacy.getId())
-                         //   .equalTo("idubigeo", ubigeo.getId())
+                            .equalTo("idubigeo", ubigeo.getId())
                             .findAll();
                     mAdapter.setData(recordDetails);
                     mAdapter.notifyDataSetChanged();
@@ -240,7 +260,7 @@ public class NewRecordPharmacyActivity extends AppCompatActivity {
                     Log.d(TAG, String.valueOf(ubigeo.getId()));
                     recordDetails = realm.where(PharmacyAddress.class)
                             .equalTo("idpharmacy", pharmacy.getId())
-                         //   .equalTo("idubigeo", ubigeo.getId())
+                            .equalTo("idubigeo", ubigeo.getId())
                             .findAll();
                     mAdapter.setData(recordDetails);
                     mAdapter.notifyDataSetChanged();
@@ -314,6 +334,7 @@ public class NewRecordPharmacyActivity extends AppCompatActivity {
                         recordPharmacy.setLatitude(latitude);
                         recordPharmacy.setLongitude(longitude);
                         recordPharmacy.setTypeaddress(spinner.getSelectedItemPosition()+1);
+                        recordPharmacy.setAlert(false);
 
                         if(recordPharmacy.getUser() == null){
                             recordPharmacy.setUser(user.getName());
@@ -322,6 +343,7 @@ public class NewRecordPharmacyActivity extends AppCompatActivity {
                         if(user.getRol().equals("SUP"))
                         {
                             recordPharmacy.setCheck(2);
+                            recordPharmacy.setSent(false);
                         }
 
                         realm.copyToRealmOrUpdate(recordPharmacy);
@@ -358,7 +380,7 @@ public class NewRecordPharmacyActivity extends AppCompatActivity {
 
                     realm.beginTransaction();
                     recordPharmacy.setCheck(3);
-
+                    recordPharmacy.setSent(false);
                     realm.copyToRealmOrUpdate(recordPharmacy);
 
                     realm.commitTransaction();
@@ -377,7 +399,6 @@ public class NewRecordPharmacyActivity extends AppCompatActivity {
                         }
 
                         realm.commitTransaction();
-
                     }
 
 
@@ -419,6 +440,7 @@ public class NewRecordPharmacyActivity extends AppCompatActivity {
                 Intent intentGeo = new Intent(this, MapsActivity.class);
                 intentGeo.putExtra(Constants.LATITUDE, latitude);
                 intentGeo.putExtra(Constants.LONGITUDE, longitude);
+                intentGeo.putExtra(Constants.TYPE,type);
                 startActivityForResult(intentGeo, ADD_GEOLOCALIZATION_REQUEST);
                 break;
             default:
@@ -447,15 +469,15 @@ public class NewRecordPharmacyActivity extends AppCompatActivity {
 
     }
 
-    /**
-     * Exit the app if user select yes.
-     */
     private void doExit() {
     }
 
     @Override
     public void onBackPressed() {
-        doExit();
+        if(type.equals("edit")){
+        if(user.getRol().equals("SUP")){
+            super.onBackPressed();
+        }}
     }
 
     @Override
@@ -467,5 +489,121 @@ public class NewRecordPharmacyActivity extends AppCompatActivity {
         return super.onKeyDown(keyCode, event);
     }
 
+    public class PharmacyAddressListAdapter extends RecyclerView.
+            Adapter<PharmacyAddressListAdapter.ViewHolder> {
 
+        private List<PharmacyAddress> items;
+        private int itemLayout;
+
+        public PharmacyAddressListAdapter(List<PharmacyAddress> items, int itemLayout) {
+            this.items = items;
+            this.itemLayout = itemLayout;
+        }
+
+        public void setData(List<PharmacyAddress> items) {
+            this.items = items;
+        }
+
+        @Override
+        public ViewHolder onCreateViewHolder(ViewGroup parent, int i) {
+            View itemLayoutView = LayoutInflater.from(parent.getContext()).inflate(itemLayout,
+                    parent, false);
+            ViewHolder viewHolder = new ViewHolder(itemLayoutView);
+            return viewHolder;
+        }
+
+        @Override
+        public void onBindViewHolder(ViewHolder viewHolder, int position) {
+            PharmacyAddress item = items.get(position);
+            viewHolder.name.setText(item.getName());
+            viewHolder.qty.setText(item.getAddress());
+            viewHolder.id = item.getId();
+            viewHolder.itemView.setTag(item);
+        }
+
+        @Override
+        public int getItemCount() {
+            return items.size();
+        }
+
+        public class ViewHolder extends RecyclerView.ViewHolder
+                implements RecyclerView.OnClickListener {
+
+            public TextView name;
+            public TextView qty;
+            public int id;
+
+            public ViewHolder(View itemView) {
+                super(itemView);
+                name = (TextView) itemView.findViewById(R.id.record_detail_name);
+                qty  = (TextView) itemView.findViewById(R.id.record_detail_qty);
+                itemView.setOnClickListener(this);
+            }
+
+            @Override
+            public void onClick(View view) {
+
+                if(user.getRol().equals("SUP")) {
+
+                    new AlertDialog.Builder(getSupportActionBar().getThemedContext())
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .setTitle("Asignación de Dirección")
+                            .setMessage("¿Está seguro que desea asignar la dirección?")
+                            .setPositiveButton("Si", new DialogInterface.OnClickListener() {
+
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+
+                                    realm.beginTransaction();
+                                    recordPharmacy.setIdpharmacydetail(id);
+                                    recordPharmacy.setCheck(2);
+
+                                    recordPharmacy.setRuc(recordPharmacyCode.getText().toString());
+                                    recordPharmacy.setBusinessname(recordPharmacyBussinesname.getText().toString());
+                                    recordPharmacy.setAddress(recordPharmacyAddress.getText().toString());
+                                    recordPharmacy.setScore(recordPharmacyCategory.getText().toString());
+                                    //recordPharmacy.setCreatedAt(new Date());
+                                    recordPharmacy.setIdzone(ubigeo.getId());
+                                    recordPharmacy.setSent(Boolean.FALSE);
+                                    recordPharmacy.setActive(Boolean.TRUE);
+                                    recordPharmacy.setUser_id(user.getId());
+                                    recordPharmacy.setNumberaddress(recordPharmacyNumberAddress.getText().toString());
+                                    recordPharmacy.setLatitude(latitude);
+                                    recordPharmacy.setLongitude(longitude);
+                                    recordPharmacy.setTypeaddress(spinner.getSelectedItemPosition()+1);
+                                    recordPharmacy.setAlert(false);
+
+                                    realm.copyToRealmOrUpdate(recordPharmacy);
+
+                                    realm.commitTransaction();
+
+                                    Toast.makeText(getApplicationContext(), "Se asignó esta dirección al registro.",
+                                            Toast.LENGTH_SHORT).show();
+
+                                    Intent intent = new Intent();
+                                    if (getParent() == null) {
+                                        setResult(Activity.RESULT_OK, intent);
+                                    } else {
+                                        getParent().setResult(Activity.RESULT_OK, intent);
+                                    }
+                                    realm.close();
+
+                                    finish();
+
+                                }
+                            })
+                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                }
+                            })
+                            .show();
+
+                }else{
+                    Toast.makeText(getApplicationContext(), "El supervisor asignará la dirección.",
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+    }
 }

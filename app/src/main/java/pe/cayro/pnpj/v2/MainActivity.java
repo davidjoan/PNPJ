@@ -26,10 +26,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
+import com.squareup.picasso.Picasso;
 
 import java.util.Date;
 import java.util.UUID;
@@ -104,14 +106,14 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         userCode.setText(user.getCode());
 
         avatar = (ImageView) header.findViewById(R.id.avatar);
-/*
+
         Picasso.with(this).
                 load(new StringBuilder().append(Constants.USER_PHOTO_SERVER).
                         append(user.getCode()).
                         append(Constants.DOT_JPG).toString()).
                 error(R.drawable.avatar).
                 into(avatar);
-*/
+
         userRole = (TextView) header.findViewById(R.id.NavUserRole);
         userRole.setText(user.getRol());
 
@@ -201,10 +203,24 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 break;
             case R.id.action_send_data:
                 registerAlarm(getApplicationContext());
-                break;
-            case R.id.action_receive_data:
+
+                Toast.makeText(getApplicationContext(),R.string.forzar_actualizacion,
+                        Toast.LENGTH_SHORT).show();
+
                 Intent intentReceiveData = new Intent(MainActivity.this, UpdateDataActivity.class);
+                intentReceiveData.putExtra(Constants.TYPE, "simple");
                 startActivity(intentReceiveData);
+                finish();
+                break;
+            case R.id.action_send_all_data:
+                registerAlarm(getApplicationContext());
+
+                Toast.makeText(getApplicationContext(), R.string.descarga_general,
+                        Toast.LENGTH_SHORT).show();
+
+                Intent intentReceiveDataAll = new Intent(MainActivity.this, UpdateDataActivity.class);
+                intentReceiveDataAll.putExtra(Constants.TYPE, "all");
+                startActivity(intentReceiveDataAll);
                 finish();
                 break;
         }

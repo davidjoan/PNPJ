@@ -74,6 +74,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/doctor_code"
                 android:paddingLeft="5dp"
+                android:visibility="gone"
                 android:textSize="10sp"
                 android:text="Categoria"
 

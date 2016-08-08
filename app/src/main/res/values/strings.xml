@@ -173,4 +173,8 @@
     <string name="record_pharmacy_name_value">Farmacia X</string>
     <string name="record_pharmacy_address_value">Direccion Farmacia X</string>
     <string name="zone">Zona</string>
+    <string name="forzar_actualizacion">Forzar Actualización</string>
+    <string name="descarga_general">Descarga General</string>
+    <string name="loading">Cargando...</string>
+    <string name="geolocalizacion">Geolocalización</string>
 </resources>

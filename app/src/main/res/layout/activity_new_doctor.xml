@@ -18,8 +18,6 @@
             android:gravity="center|left"
             android:orientation="vertical">
 
-
-
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -63,6 +61,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="@string/doctor_code"
+                android:digits="0123456789qwertzuiopasdfghjklyxcvbnñmABCDEFGHIJKLMNÑOPQRSTUVWXYZ "
                 android:inputType="textCapCharacters" />
         </android.support.design.widget.TextInputLayout>
 
@@ -98,6 +97,7 @@
                 android:layout_height="match_parent"
                 android:id="@+id/doctor_firstname"
                 android:hint="Nombres"
+                android:digits="qwertzuiopasdfghjklyxcvbnñmABCDEFGHIJKLMNÑOPQRSTUVWXYZ "
                 android:inputType="textCapCharacters" />
 
         </android.support.design.widget.TextInputLayout>
@@ -117,6 +117,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:digits="qwertzuiopasdfghjklyxcvbnñmABCDEFGHIJKLMNÑOPQRSTUVWXYZ "
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
         <EditText
@@ -140,6 +141,7 @@
                 android:layout_height="match_parent"
                 android:id="@+id/doctor_surname"
                 android:hint="Apellido Materno"
+                android:digits="qwertzuiopasdfghjklyxcvbnñmABCDEFGHIJKLMNÑOPQRSTUVWXYZ "
                 android:inputType="textCapCharacters" />
 
         </android.support.design.widget.TextInputLayout>
@@ -167,6 +169,7 @@
                 android:layout_height="match_parent"
                 android:ems="10"
                 android:hint="@string/specialty_field"
+                android:digits="qwertzuiopasdfghjklyxcvbnñmABCDEFGHIJKLMNÑOPQRSTUVWXYZ "
                 android:inputType="textCapCharacters" />
         </android.support.design.widget.TextInputLayout>
 
@@ -182,6 +185,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:ems="10"
+                android:visibility="gone"
+                android:digits="0123456789qwertzuiopasdfghjklyxcvbnñmABCDEFGHIJKLMNÑOPQRSTUVWXYZ "
                 android:hint="Categoría"
                 android:inputType="textCapCharacters" />
         </android.support.design.widget.TextInputLayout>
@@ -234,7 +239,7 @@
                 android:layout_height="match_parent"
                 android:id="@+id/doctor_phone"
                 android:hint="Celular"
-                android:inputType="textCapCharacters" />
+                android:inputType="phone" />
 
         </android.support.design.widget.TextInputLayout>
 
@@ -332,7 +337,7 @@
                 android:layout_height="match_parent"
                 android:id="@+id/doctor_email"
                 android:hint="Correo Electrónico"
-                android:inputType="textCapCharacters" />
+                android:inputType="textEmailAddress" />
         </android.support.design.widget.TextInputLayout>
 
     </LinearLayout>
@@ -356,6 +361,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:id="@+id/doctor_reference"
+                        android:digits="0123456789qwertzuiopasdfghjklyxcvbnñmABCDEFGHIJKLMNÑOPQRSTUVWXYZ/\,.- "
                         android:hint="Dirección o Institución + Distrito"
                         android:inputType="textCapCharacters" />
                 </android.support.design.widget.TextInputLayout>
@@ -377,12 +383,9 @@
             android:layout_weight="1"
             android:onClick="saveDoctor"
             style="@style/ButtonAppTheme"
-
             android:id="@+id/doctor_save"
             android:layout_marginRight="2.5dp"
             android:layout_gravity="center_horizontal" />
-
-
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -394,6 +397,5 @@
             android:layout_gravity="center_horizontal" />
     </LinearLayout>
         </LinearLayout>
-
     </ScrollView>
 </LinearLayout>

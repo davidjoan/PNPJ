@@ -72,13 +72,11 @@
                 android:paddingLeft="5dp"
                 android:textSize="10sp"
                 android:text="Categoria"
-
+                android:visibility="gone"
                 android:layout_toRightOf="@+id/record_pharmacy_image"
                 android:layout_alignRight="@+id/record_pharmacy_code"
                 android:layout_alignEnd="@+id/record_pharmacy_code" />
-
-
-
+            
             <TextView
                 android:id="@+id/record_pharmacy_usuario"
                 android:layout_width="match_parent"
@@ -137,10 +135,19 @@
                 android:paddingRight="5dp"
                 android:paddingTop="5dp"
                 android:layout_alignParentBottom="true"
-                android:layout_toLeftOf="@+id/record_pharmacy_check"
-                android:layout_toStartOf="@+id/record_pharmacy_check" />
+                android:layout_toLeftOf="@+id/record_pharmacy_map"
+                android:layout_toStartOf="@+id/record_pharmacy_map" />
 
-
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/record_pharmacy_map"
+                android:src="@drawable/map_false"
+                android:paddingRight="5dp"
+                android:paddingTop="5dp"
+                android:layout_alignParentBottom="true"
+                android:layout_toLeftOf="@+id/record_pharmacy_status"
+                android:layout_toStartOf="@+id/record_pharmacy_status" />
 
         </RelativeLayout>
 

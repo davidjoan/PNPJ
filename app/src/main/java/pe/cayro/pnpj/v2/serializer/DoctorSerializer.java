@@ -36,6 +36,7 @@ public class DoctorSerializer implements JsonSerializer<Doctor> {
         jsonObject.addProperty("check", src.getCheck());
         jsonObject.addProperty("zone", src.getZone());
         jsonObject.addProperty("phone", src.getPhone());
+        jsonObject.addProperty("reference", src.getReference());
         jsonObject.addProperty("cantsurgery", src.getCantsurgery());
         jsonObject.addProperty("canthospital", src.getCanthospital());
         jsonObject.addProperty("mail", src.getMail());

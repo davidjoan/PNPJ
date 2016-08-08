@@ -112,7 +112,6 @@ public class FragmentDoctor extends Fragment {
                         .setMessage("Desea eliminar este médico?")
                         .setPositiveButton("Si", new DialogInterface.OnClickListener() {
 
-
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
 
@@ -294,7 +293,7 @@ public class FragmentDoctor extends Fragment {
             viewHolder.code.setText(Constants.CMP_FIELD+item.getCode());
             viewHolder.specialty.setText(Constants.SPECIALTY_FIELD+item.getSpecialty().getName());
             viewHolder.uuid = item.getUuid();
-            viewHolder.active = item.getCheck();
+            viewHolder.sent = item.isSent();
 
             viewHolder.comment.setText("Comentario: "+((item.getComment() == null)?"vacío":item.getComment()));
             viewHolder.usuario.setText("Representante: "+item.getUser());
@@ -349,7 +348,7 @@ public class FragmentDoctor extends Fragment {
             public TextView specialty;
             public TextView code;
             public String uuid;
-            public int active;
+            public boolean sent;
             public ImageView status;
             public ImageView check;
             public TextView comment;
@@ -379,15 +378,16 @@ public class FragmentDoctor extends Fragment {
 
                 if(user.getRol().equals("REG")) {
 
-                    if (active == 1) {
+                    if (sent) {
+
+                        Toast.makeText(getActivity(), "El médico ya no puede modificarse",
+                                Toast.LENGTH_SHORT).show();
+
+                    } else {
                         Intent intent = new Intent(getActivity(), NewDoctorActivity.class);
                         intent.putExtra(Constants.UUID, uuid);
                         startActivityForResult(intent, ADD_DOCTOR_REQUEST);
-                    } else {
-                        Toast.makeText(getActivity(), "El médico ya no puede modificarse",
-                                Toast.LENGTH_SHORT).show();
                     }
-
                 }else{
 
                     Intent intent = new Intent(getActivity(), NewDoctorActivity.class);

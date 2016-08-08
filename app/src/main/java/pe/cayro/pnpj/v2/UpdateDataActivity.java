@@ -22,6 +22,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import io.realm.Realm;
+import io.realm.RealmResults;
 import pe.cayro.pnpj.v2.api.RestClient;
 import pe.cayro.pnpj.v2.model.Doctor;
 import pe.cayro.pnpj.v2.model.DoctorType;
@@ -29,11 +30,17 @@ import pe.cayro.pnpj.v2.model.DoctorsCloseUp;
 import pe.cayro.pnpj.v2.model.Pharmacy;
 import pe.cayro.pnpj.v2.model.PharmacyAddress;
 import pe.cayro.pnpj.v2.model.RecordPharmacy;
+import pe.cayro.pnpj.v2.model.Result;
 import pe.cayro.pnpj.v2.model.Specialty;
 import pe.cayro.pnpj.v2.model.Ubigeo;
 import pe.cayro.pnpj.v2.model.User;
+import pe.cayro.pnpj.v2.serializer.DoctorSerializer;
+import pe.cayro.pnpj.v2.serializer.RecordPharmacySerializer;
 import pe.cayro.pnpj.v2.service.SamAlarmReceiver;
 import pe.cayro.pnpj.v2.util.Constants;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 public class UpdateDataActivity extends AppCompatActivity {
     private static String TAG = UpdateDataActivity.class.getSimpleName();
@@ -44,11 +51,14 @@ public class UpdateDataActivity extends AppCompatActivity {
     private Handler handler;
     private ProgressDialog progress;
     private boolean mIsBackButtonPressed;
+    String type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
+
+        type = getIntent().getStringExtra(Constants.TYPE);
 
         ButterKnife.bind(this);
 
@@ -65,7 +75,7 @@ public class UpdateDataActivity extends AppCompatActivity {
 
                 progress.setCancelable(false);
                 progress.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-                progress.setMax(11);
+                progress.setMax(2);
                 progress.setMessage(Constants.SINCRONIZATION);
                 progress.show();
                 new LoginAsyncTask(getApplicationContext()).execute(Constants.EMPTY);
@@ -121,7 +131,6 @@ public class UpdateDataActivity extends AppCompatActivity {
             TelephonyManager telephonyManager = (TelephonyManager) context.
                     getSystemService(Context.TELEPHONY_SERVICE);
 
-            this.publishProgress(Constants.OBTAINING_IMEI);
 
             Log.i(TAG, telephonyManager.getDeviceId());
 
@@ -132,68 +141,157 @@ public class UpdateDataActivity extends AppCompatActivity {
 
             try{
 
+                Log.i(TAG, "Iniciando Sincronización");
+
                 realm.beginTransaction();
-                this.publishProgress(Constants.LOADING_USERS);
+
+                DoctorSerializer serializerDoctor             = new DoctorSerializer();
+                RecordPharmacySerializer serializerInstitution   = new RecordPharmacySerializer();
+
+                this.publishProgress("Enviando Datos");
+
+                RealmResults<RecordPharmacy> pendingInstitutions = realm.where(RecordPharmacy.class).
+                        equalTo(Constants.SENT, Boolean.FALSE).
+                        isNotNull("ruc").
+                        findAll();
+
+                for(RecordPharmacy institution : pendingInstitutions){
+                    RestClient.get().createRecordPharmacy(serializerInstitution.serialize(institution, null,null), new Callback<Result>(){
+
+                        @Override
+                        public void success(Result result, Response response) {
+
+                            if(Constants.ONE.equals(result.getIdResult())){
+
+                                Log.i(TAG, "RecordPharmacy Updated");
+                                Realm realm = Realm.getDefaultInstance();
+                                realm.beginTransaction();
+                                RecordPharmacy temp = realm.where(RecordPharmacy.class).equalTo("uuid",
+                                        result.getUuid()).findFirst();
+                                temp.setSent(Boolean.TRUE);
+                                realm.copyToRealmOrUpdate(temp);
+                                realm.commitTransaction();
+                                realm.close();
+                            }
+
+                        }
+
+                        @Override
+                        public void failure(RetrofitError error) {
+                            Log.e(TAG, error.getMessage());
+                        }
+                    });
+
+                }
+
+                RealmResults<Doctor> pendingDoctors = realm.where(Doctor.class).
+                        equalTo(Constants.SENT, Boolean.FALSE).
+                        notEqualTo("doctorTypeId", 0).
+                        findAll();
+                for (Doctor doctor: pendingDoctors) {
+
+                    RestClient.get().createDoctor(serializerDoctor.
+                            serialize(doctor, null, null), new Callback<Result>() {
+                        @Override
+                        public void success(Result result, Response response) {
+
+                            if(Constants.ONE.equals(result.getIdResult())){
+
+                                Log.i(TAG, "Doctor Updated");
+                                Realm realm = Realm.getDefaultInstance();
+                                realm.beginTransaction();
+                                Doctor temp = realm.where(Doctor.class).equalTo("uuid",
+                                        result.getUuid()).findFirst();
+                                temp.setSent(Boolean.TRUE);
+                                realm.copyToRealmOrUpdate(temp);
+                                realm.commitTransaction();
+                                realm.close();
+                            }
+                        }
+
+                        @Override
+                        public void failure(RetrofitError error) {
+
+                            Log.e(TAG, error.getMessage());
+
+                        }
+                    });
+                }
+
+                Log.i(TAG, "Finalizando Sincronización");
+
                 List<User> users = RestClient.get().getUserByImei(imei);
                 User user = users.get(0);
                 realm.copyToRealmOrUpdate(user);
 
-                this.publishProgress(Constants.LOADING_PHARMACYS);
-                List<Pharmacy> pharmacies = RestClient.get().getListPharmacy(imei);
-                realm.copyToRealmOrUpdate(pharmacies);
 
-                this.publishProgress(Constants.LOADING_PHARMACY_ADDRESS);
-                List<PharmacyAddress> pharmacyAddress = RestClient.get().getListPharmacyAddress(imei);
-                realm.copyToRealmOrUpdate(pharmacyAddress);
+                if(type.equals("all"))
+                {
+                    this.publishProgress("Descarga General");
 
-                this.publishProgress(Constants.LOADING_RECORD_PHARMACY);
+                    this.publishProgress(Constants.LOADING_PHARMACYS);
+                    List<Pharmacy> pharmacies = RestClient.get().getListPharmacy(imei);
+                    realm.copyToRealmOrUpdate(pharmacies);
+
+                    this.publishProgress(Constants.LOADING_PHARMACY_ADDRESS);
+                    List<PharmacyAddress> pharmacyAddress = RestClient.get().getListPharmacyAddress(imei);
+                    realm.copyToRealmOrUpdate(pharmacyAddress);
+
+                    this.publishProgress(Constants.LOADING_DOCTORS);
+                    List<Doctor> doctors = RestClient.get().getListDoctors(imei);
+
+                    this.publishProgress(Constants.LOADING_DOCTORS_CLOSEUP);
+                    List<DoctorsCloseUp> doctorsCloseup = RestClient.get().getListDoctorsCloseup(imei);
+
+                    this.publishProgress(Constants.LOADING_UBIGEOS);
+                    List<Ubigeo> ubigeos = RestClient.get().getUbigeos(imei);
+                    realm.copyToRealmOrUpdate(ubigeos);
+
+                    List<Doctor> doctorsTemp = new ArrayList<Doctor>();
+                    for(Doctor temp : doctors){
+                        Specialty tempEsp = realm.where(Specialty.class).equalTo(Constants.ID,
+                                temp.getSpecialtyId()).findFirst();
+                        temp.setSpecialty(tempEsp);
+                        doctorsTemp.add(temp);
+                    }
+
+                    List<Doctor> doctorsTemp2 = new ArrayList<Doctor>();
+                    for(Doctor temp : doctors){
+                        DoctorType tempDoctorType = realm.where(DoctorType.class).equalTo(Constants.ID,
+                                temp.getDoctorTypeId()).findFirst();
+                        temp.setDoctorType(tempDoctorType);
+                        doctorsTemp2.add(temp);
+                    }
+
+                    List<DoctorsCloseUp> doctorsCloseupTemp = new ArrayList<DoctorsCloseUp>();
+                    for(DoctorsCloseUp temp : doctorsCloseup){
+                        Specialty tempEsp = realm.where(Specialty.class).equalTo(Constants.ID,
+                                temp.getSpecialtyId()).findFirst();
+                        temp.setSpecialty(tempEsp);
+                        doctorsCloseupTemp.add(temp);
+                    }
+
+                    realm.copyToRealmOrUpdate(doctorsTemp);
+                    realm.copyToRealmOrUpdate(doctorsTemp2);
+                    realm.copyToRealmOrUpdate(doctorsCloseupTemp);
+
+                }else{
+                    this.publishProgress("Forzando Actualización");
+
+                }
+
+
+
                 List<RecordPharmacy> recordPharmacy = RestClient.get().getListRecordPharmacy(imei);
                 realm.copyToRealmOrUpdate(recordPharmacy);
 
-                this.publishProgress(Constants.LOADING_SPECIALTIES);
                 List<Specialty> specialties = RestClient.get().getListSpecialties(imei);
                 realm.copyToRealmOrUpdate(specialties);
 
-                this.publishProgress(Constants.LOADING_DOCTORS);
-                List<Doctor> doctors = RestClient.get().getListDoctors(imei);
-
-                this.publishProgress(Constants.LOADING_DOCTORS_CLOSEUP);
-                List<DoctorsCloseUp> doctorsCloseup = RestClient.get().getListDoctorsCloseup(imei);
-
-                this.publishProgress(Constants.LOADING_UBIGEOS);
-                List<Ubigeo> ubigeos = RestClient.get().getUbigeos(imei);
-                realm.copyToRealmOrUpdate(ubigeos);
-
-                List<Doctor> doctorsTemp = new ArrayList<Doctor>();
-                for(Doctor temp : doctors){
-                    Specialty tempEsp = realm.where(Specialty.class).equalTo(Constants.ID,
-                            temp.getSpecialtyId()).findFirst();
-                    temp.setSpecialty(tempEsp);
-                    doctorsTemp.add(temp);
-                }
-
-                List<Doctor> doctorsTemp2 = new ArrayList<Doctor>();
-                for(Doctor temp : doctors){
-                    DoctorType tempDoctorType = realm.where(DoctorType.class).equalTo(Constants.ID,
-                            temp.getDoctorTypeId()).findFirst();
-                    temp.setDoctorType(tempDoctorType);
-                    doctorsTemp2.add(temp);
-                }
-
-                List<DoctorsCloseUp> doctorsCloseupTemp = new ArrayList<DoctorsCloseUp>();
-                for(DoctorsCloseUp temp : doctorsCloseup){
-                    Specialty tempEsp = realm.where(Specialty.class).equalTo(Constants.ID,
-                            temp.getSpecialtyId()).findFirst();
-                    temp.setSpecialty(tempEsp);
-                    doctorsCloseupTemp.add(temp);
-                }
+/*
 
 
-                realm.copyToRealmOrUpdate(doctorsTemp);
-                realm.copyToRealmOrUpdate(doctorsTemp2);
-                realm.copyToRealmOrUpdate(doctorsCloseupTemp);
-
-
+*/
                 realm.commitTransaction();
 
                 editor.putString(Constants.CYCLE_LOADED, Constants.YES);
